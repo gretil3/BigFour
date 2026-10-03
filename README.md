@@ -105,11 +105,20 @@ To add one, add a name to `MemberStyle['backdrop']` in `packages/shared/src/type
 
 ## BigFour's own slide
 
-The home carousel has five slides: BigFour first, then one per member. BigFour's slide (`features/home/TeamPanels.tsx`) shows all four themes at once, as four equal panels split by thin lines. Each panel is that member's real theme (colors, scenery, label style and typeface), and the wordmark is shared out between them, a part each in that panel's typeface (`Bi | gF | ou | r.`), cut between letters so it stays readable. The parts are set to one size so they sit level across the lines.
+The home carousel has five slides: BigFour first, then one per member. BigFour's slide (`features/home/TeamPanels.tsx`) puts the four members' scenery side by side as four equal panels across the full width, with no lines between them. Each panel has that member's background, scenery and accent (`themeVars(member)` in `lib/theme.ts` scopes a member's theme to a single element), and a label at the same inset (the gutter) in every panel, in one plain style; only the numbers take the member's accent. The wordmark on this slide is one whole word in BigFour's own heavy sans.
 
-- Text that sits on a panel takes that panel's member's style: the tagline block is on David's panel, and the index and "Explore our projects" link are on Fiko's. `themeVars(member)` in `lib/theme.ts` scopes a member's theme to a single element.
-- The rest of the page, including the header and everything below the hero, uses BigFour's own neutral black theme while this slide is showing.
-- The panels and wordmark parts are built from `members`, so they follow the member list.
+- Everything else on the slide (tagline, description, arrows, "Explore our projects", the index) uses BigFour's own neutral black theme, as do the header and everything below the hero.
+- The panels are built from `members`, so they follow the member list.
+
+## Hero text layout
+
+Every slide shares one text layout, built on a single edge: the gutter (`--edge` in `HomeHero.module.css`). On the home page the header runs full width too, so its logo and nav sit on the same edges as the hero.
+
+- Top left: the status line on member slides, the panel labels on BigFour's slide.
+- Bottom left, one left-aligned stack: the wordmark, the tagline, the description and the arrow buttons. `lib/useInkAlign.ts` pulls the wordmark and the tagline left by their first letter's side bearing, so their ink starts exactly on the edge, like the smaller text below them.
+- Bottom right: the slide index, its top level with the tagline, and "Explore our projects", an outlined button the same height and style as the arrows, on their row. Both end on the right edge, in line with the header nav.
+
+On phones the description is hidden, "Explore" moves under the arrows, and the index floats above the stack at the right.
 
 ## Giving each member their own layout
 

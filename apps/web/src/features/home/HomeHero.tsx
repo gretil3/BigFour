@@ -5,8 +5,10 @@ import { getFirstName, members, team } from '@bigfour/shared';
 import { Backdrop } from '../../components/Backdrop';
 import { ArrowLeftIcon, ArrowRightIcon } from '../../components/icons';
 import { getMemberCutout } from '../../lib/assets';
+import { cx } from '../../lib/cx';
 import { formatIndex } from '../../lib/format';
-import { themeVars, useMemberTheme } from '../../lib/theme';
+import { useMemberTheme } from '../../lib/theme';
+import { useInkAlign } from '../../lib/useInkAlign';
 import { MemberCutout } from './MemberCutout';
 import { TeamPanels } from './TeamPanels';
 import styles from './HomeHero.module.css';
@@ -27,26 +29,24 @@ function getSlidePosition(index: number, active: number): SlidePosition {
   return 'back';
 }
 
-const firstMember = members[0];
-const lastMember = members[members.length - 1];
-
 /**
  * Full-screen carousel: BigFour's own slide, then one slide per member. A member's slide
  * re-themes the whole site with their portfolio's colors, type and scenery. BigFour's slide
- * shows all four themes at once, as four panels.
+ * keeps the site's own theme and shows the four members' scenery side by side, as four panels.
+ * The text layout is the same on every slide.
  */
 export function HomeHero() {
   const [active, setActive] = useState(0);
   const sliding = useRef(false);
+  const wordmarkRef = useRef<HTMLParagraphElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   const onTeam = active === 0;
   const member = onTeam ? undefined : members[active - 1];
   useMemberTheme(member);
-
-  // Text sitting on a panel takes that member's style: the copy block lives on the first
-  // panel, the index and the "Explore" link on the last.
-  const copyTheme = onTeam && firstMember ? themeVars(firstMember) : undefined;
-  const endTheme = onTeam && lastMember ? themeVars(lastMember) : undefined;
+  // The two large lines start exactly on the edge the smaller text starts on.
+  useInkAlign(wordmarkRef, active);
+  useInkAlign(titleRef, active);
 
   /** Moves to another slide, unless one is still sliding in. */
   function change(next: (index: number) => number) {
@@ -92,9 +92,6 @@ export function HomeHero() {
           <>
             <Backdrop name={member.style.backdrop} />
             <div className={styles.grain} aria-hidden="true" />
-            <div className={styles.ghost} aria-hidden="true">
-              {team.name}
-            </div>
 
             <p className={styles.status} aria-hidden="true">
               <span className={styles.counter}>
@@ -125,25 +122,15 @@ export function HomeHero() {
           </>
         )}
 
-        <nav className={styles.index} style={endTheme} aria-label="Slides">
-          {slides.map((name, index) => (
-            <button
-              key={name}
-              type="button"
-              className={styles.indexItem}
-              aria-label={index === 0 ? `Show ${team.name}` : `Show ${name}`}
-              aria-current={index === active ? 'true' : undefined}
-              onClick={() => change(() => index)}
-            >
-              <span className={styles.indexLine} aria-hidden="true" />
-              <span className={styles.indexNumber}>{formatIndex(index + 1)}</span>
-              <span className={styles.indexName}>{name}</span>
-            </button>
-          ))}
-        </nav>
-
-        <div className={styles.copy} style={copyTheme}>
-          <h1 id="hero-title" className={styles.title}>
+        <div className={styles.copy}>
+          <p
+            ref={wordmarkRef}
+            className={cx(styles.wordmark, onTeam && styles.wordmarkTeam)}
+            aria-hidden="true"
+          >
+            {team.name}
+          </p>
+          <h1 ref={titleRef} id="hero-title" className={styles.title}>
             {team.tagline}
           </h1>
           <p className={styles.description}>{team.description}</p>
@@ -154,7 +141,7 @@ export function HomeHero() {
               aria-label="Previous slide"
               onClick={() => step(-1)}
             >
-              <ArrowLeftIcon size={26} />
+              <ArrowLeftIcon size={24} />
             </button>
             <button
               type="button"
@@ -162,18 +149,30 @@ export function HomeHero() {
               aria-label="Next slide"
               onClick={() => step(1)}
             >
-              <ArrowRightIcon size={26} />
+              <ArrowRightIcon size={24} />
             </button>
           </div>
-          <Link to="/projects" className={styles.exploreInline}>
-            Explore our projects <span aria-hidden="true">→</span>
+          <nav className={styles.index} aria-label="Slides">
+            {slides.map((name, index) => (
+              <button
+                key={name}
+                type="button"
+                className={styles.indexItem}
+                aria-label={index === 0 ? `Show ${team.name}` : `Show ${name}`}
+                aria-current={index === active ? 'true' : undefined}
+                onClick={() => change(() => index)}
+              >
+                <span className={styles.indexLine} aria-hidden="true" />
+                <span className={styles.indexNumber}>{formatIndex(index + 1)}</span>
+                <span className={styles.indexName}>{name}</span>
+              </button>
+            ))}
+          </nav>
+          <Link to="/projects" className={styles.explore}>
+            Explore our projects
+            <ArrowRightIcon size={20} />
           </Link>
         </div>
-
-        <Link to="/projects" className={styles.exploreCorner} style={endTheme}>
-          Explore our projects
-          <ArrowRightIcon size={32} />
-        </Link>
       </section>
     </MotionConfig>
   );

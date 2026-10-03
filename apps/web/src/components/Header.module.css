@@ -19,6 +19,10 @@
   gap: 16px;
 }
 
+.navFull {
+  max-width: none;
+}
+
 .brand {
   display: flex;
   align-items: center;
