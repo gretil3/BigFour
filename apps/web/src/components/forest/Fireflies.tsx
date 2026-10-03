@@ -41,7 +41,7 @@ function createSprite(rgb: string) {
   return sprite;
 }
 
-/** Fills its positioned parent, and listens to the pointer over that parent. */
+/** Fills its positioned parent, and reacts to the pointer anywhere over that parent. */
 export function Fireflies({ count = 40, color = '217, 249, 157', className }: FirefliesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -151,11 +151,14 @@ export function Fireflies({ count = 40, color = '217, 249, 157', className }: Fi
       frame = 0;
     };
 
+    // Tracked from the document, so the flies still notice the pointer when text or
+    // controls sit on top of them.
     const onPointerMove = (e: PointerEvent) => {
       const rect = host.getBoundingClientRect();
       pointer.x = e.clientX - rect.left;
       pointer.y = e.clientY - rect.top;
-      pointer.active = true;
+      pointer.active =
+        pointer.x >= 0 && pointer.y >= 0 && pointer.x <= rect.width && pointer.y <= rect.height;
     };
     const onPointerLeave = () => {
       pointer.active = false;
@@ -178,8 +181,8 @@ export function Fireflies({ count = 40, color = '217, 249, 157', className }: Fi
     });
     intersectionObserver.observe(host);
 
-    host.addEventListener('pointermove', onPointerMove);
-    host.addEventListener('pointerleave', onPointerLeave);
+    document.addEventListener('pointermove', onPointerMove, { passive: true });
+    document.documentElement.addEventListener('pointerleave', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibilityChange);
     start();
 
@@ -187,8 +190,8 @@ export function Fireflies({ count = 40, color = '217, 249, 157', className }: Fi
       stop();
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
-      host.removeEventListener('pointermove', onPointerMove);
-      host.removeEventListener('pointerleave', onPointerLeave);
+      document.removeEventListener('pointermove', onPointerMove);
+      document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, [count, color]);

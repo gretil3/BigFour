@@ -4,7 +4,7 @@ import { ServiceGrid } from '../../components/ServiceCard';
 
 export function ServicesSection() {
   return (
-    <Section id="services" labelledBy="services-title">
+    <Section labelledBy="services-title">
       <SectionHeader
         eyebrow="Services"
         title="What we build"

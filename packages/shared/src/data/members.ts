@@ -12,7 +12,6 @@ export const members: Member[] = [
     slug: 'david',
     name: 'David Sinambela',
     role: 'Software Engineer · UI/UX & QA',
-    motto: 'Less Decision, more focus',
     socials: [
       { platform: 'github', url: 'https://github.com/gretil3' },
       { platform: 'linkedin', url: 'https://www.linkedin.com/in/david-sinambela-754a89324/' },

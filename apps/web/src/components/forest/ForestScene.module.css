@@ -1,0 +1,115 @@
+/*
+ * The night forest from David's portfolio (website_portofolio/src/components/Hero.tsx):
+ * sky, moon, a lantern glow that trails the pointer, mist, three ranks of pines and
+ * fireflies. Scenery only; the hero's own text and controls sit above it.
+ */
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 50% at 80% 12%, rgba(217, 249, 157, 0.07), transparent 60%),
+    linear-gradient(180deg, #06120f 0%, #0b221c 40%, #143629 72%, #173d2f 100%);
+}
+
+/* David's site has it at right: 12%; nudged out so it clears the hero's wordmark. */
+.moon {
+  position: absolute;
+  top: 16%;
+  right: 5%;
+}
+
+.moonDisc {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f4f9e4, #cfdcb4 60%, #a9b98f);
+  opacity: 0.9;
+  box-shadow:
+    0 0 60px 18px rgba(217, 249, 157, 0.14),
+    0 0 180px 70px rgba(217, 249, 157, 0.06);
+}
+
+.lantern {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(217, 249, 157, 0.1) 0%, transparent 65%);
+}
+
+.far {
+  min-height: 150px;
+}
+
+.mid {
+  min-height: 180px;
+}
+
+.near {
+  min-height: 200px;
+}
+
+.mist {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: 20vh;
+  height: 160px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(190, 225, 200, 0.08), transparent);
+  filter: blur(40px);
+  animation: mist-drift 24s ease-in-out infinite alternate;
+}
+
+@keyframes mist-drift {
+  from {
+    transform: translateX(-6%);
+  }
+
+  to {
+    transform: translateX(6%);
+  }
+}
+
+.fireflies {
+  position: absolute;
+  inset: 0;
+}
+
+/* Hides the parallax layers' clipped bottoms so the scene melts into the page below. */
+.fade {
+  position: absolute;
+  inset: auto 0 0;
+  height: 80px;
+  background: linear-gradient(
+    to top,
+    var(--color-bg),
+    color-mix(in srgb, var(--color-bg) 80%, transparent),
+    transparent
+  );
+}
+
+@media (min-width: 640px) {
+  .moonDisc {
+    width: 96px;
+    height: 96px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moon,
+  .far,
+  .mid,
+  .near {
+    transform: none !important;
+  }
+
+  .lantern {
+    display: none;
+  }
+
+  .mist {
+    animation: none;
+  }
+}

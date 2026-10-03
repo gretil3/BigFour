@@ -10,4 +10,4 @@ david.png  kevin.png  gerald.png  fiko.png
 - **Portrait, about 0.6 : 1** (for example 1200 × 2000). The image is scaled to fit that frame, anchored to the bottom.
 - **Crop at the waist or chest, touching the bottom edge.** The active slide is enlarged and runs off the bottom of the screen.
 
-Until a member's file exists, the hero shows an empty frame with their initial.
+Until a member's file exists, the hero shows nothing in its place.

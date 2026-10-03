@@ -65,8 +65,6 @@ export interface Member {
   slug: string;
   name: string;
   role: string;
-  /** Short personal motto, shown as a code comment over a portfolio-style home hero. */
-  motto?: string;
   socials: SocialLink[];
   palette: MemberPalette;
   style: MemberStyle;

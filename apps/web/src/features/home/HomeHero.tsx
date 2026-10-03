@@ -1,98 +1,137 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { AnimatePresence, MotionConfig, motion, useIsPresent } from 'framer-motion';
-import { members } from '@bigfour/shared';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router';
+import { getFirstName, members, team } from '@bigfour/shared';
+import { Backdrop } from '../../components/Backdrop';
+import { ArrowLeftIcon, ArrowRightIcon } from '../../components/icons';
+import { getMemberCutout } from '../../lib/assets';
 import { formatIndex } from '../../lib/format';
 import { useMemberTheme } from '../../lib/theme';
-import { MemberHero } from './heroes/MemberHero';
-import { memberHeroes } from './heroes/registry';
-import { HERO_TITLE_ID, type HeroControl } from './heroes/types';
+import { MemberCutout } from './MemberCutout';
 import styles from './HomeHero.module.css';
 
 /** Matches --hero-duration, so a new slide change can't start mid-transition. */
 const SLIDE_DURATION_MS = 650;
 
-/**
- * One hero's layer. Switching to a member with a different hero cross-fades the two;
- * the outgoing one is inert while it fades, so it can't be focused or clicked.
- */
-function HeroScene({ children }: { children: ReactNode }) {
-  const isPresent = useIsPresent();
-  return (
-    <motion.div
-      className={styles.scene}
-      data-scene={isPresent ? 'present' : 'leaving'}
-      inert={!isPresent}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: SLIDE_DURATION_MS / 1000, ease: [0.4, 0, 0.2, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+type SlidePosition = 'center' | 'left' | 'right' | 'back';
+
+function getSlidePosition(index: number, active: number): SlidePosition {
+  const count = members.length;
+  if (index === active) return 'center';
+  if (index === (active + count - 1) % count) return 'left';
+  if (index === (active + 1) % count) return 'right';
+  return 'back';
 }
 
 /**
- * Full-screen carousel of the members. Each slide re-themes the whole site with that
- * member's portfolio style, and members with a hero of their own (see heroes/registry)
- * swap in the hero of their personal portfolio.
+ * Full-screen carousel of the members. Each slide re-themes the whole site,
+ * from the header down to the footer, with that member's portfolio palette.
  */
 export function HomeHero() {
   const [active, setActive] = useState(0);
-  const lockedUntil = useRef(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const focusAfterChange = useRef<HeroControl | null>(null);
+  const sliding = useRef(false);
 
   const member = members[active];
   useMemberTheme(member);
-
-  // The pressed button may belong to a hero that just left; keep focus on the same control.
-  useEffect(() => {
-    const control = focusAfterChange.current;
-    if (!control) return;
-    focusAfterChange.current = null;
-    sectionRef.current
-      ?.querySelector<HTMLElement>(`[data-scene='present'] [data-hero-control='${control}']`)
-      ?.focus();
-  }, [active]);
-
   if (!member) return null;
 
-  function step(control: HeroControl) {
-    const now = performance.now();
-    if (now < lockedUntil.current) return;
-    lockedUntil.current = now + SLIDE_DURATION_MS;
-    focusAfterChange.current = control;
-    const direction = control === 'next' ? 1 : -1;
-    setActive((index) => (index + direction + members.length) % members.length);
+  /** Moves to another slide, unless one is still sliding in. */
+  function change(next: (index: number) => number) {
+    if (sliding.current) return;
+    sliding.current = true;
+    window.setTimeout(() => {
+      sliding.current = false;
+    }, SLIDE_DURATION_MS);
+    setActive(next);
   }
 
-  // Members sharing StandardHero share one scene, so its cutouts glide between them.
-  const sceneKey = member.slug in memberHeroes ? member.slug : 'standard';
+  function step(direction: 1 | -1) {
+    change((index) => (index + direction + members.length) % members.length);
+  }
 
   return (
-    <MotionConfig reducedMotion="user">
-      <section
-        ref={sectionRef}
-        className={styles.hero}
-        aria-labelledby={HERO_TITLE_ID}
-        aria-roledescription="carousel"
-      >
-        <p className={styles.srOnly} aria-live="polite">
-          {`Member ${formatIndex(active + 1)} of ${formatIndex(members.length)}: ${member.name}, ${member.role}`}
-        </p>
-        <AnimatePresence>
-          <HeroScene key={sceneKey}>
-            <MemberHero
-              member={member}
-              index={active}
-              count={members.length}
-              onPrevious={() => step('previous')}
-              onNext={() => step('next')}
-            />
-          </HeroScene>
-        </AnimatePresence>
-      </section>
-    </MotionConfig>
+    <section className={styles.hero} aria-labelledby="hero-title" aria-roledescription="carousel">
+      <Backdrop name={member.style.backdrop} />
+      <div className={styles.grain} aria-hidden="true" />
+      <div className={styles.ghost} aria-hidden="true">
+        {team.name}
+      </div>
+
+      <p className={styles.status} aria-live="polite">
+        <span className={styles.counter}>
+          {formatIndex(active + 1)} / {formatIndex(members.length)}
+        </span>
+        <span>{member.name}</span>
+        <span className={styles.role}>{member.role}</span>
+      </p>
+
+      <nav className={styles.index} aria-label="Members">
+        {members.map((indexMember, index) => (
+          <button
+            key={indexMember.slug}
+            type="button"
+            className={styles.indexItem}
+            aria-label={`Show ${indexMember.name}`}
+            aria-current={index === active ? 'true' : undefined}
+            onClick={() => change(() => index)}
+          >
+            <span className={styles.indexLine} aria-hidden="true" />
+            <span className={styles.indexNumber}>{formatIndex(index + 1)}</span>
+            <span className={styles.indexName}>{getFirstName(indexMember)}</span>
+          </button>
+        ))}
+      </nav>
+
+      <div className={styles.stage}>
+        {members.map((slideMember, index) => {
+          // No photo yet, no slide: the hero shows nothing in its place.
+          const cutout = getMemberCutout(slideMember.slug);
+          if (!cutout) return null;
+
+          return (
+            <div
+              key={slideMember.slug}
+              className={styles.slide}
+              data-position={getSlidePosition(index, active)}
+              aria-hidden={index !== active}
+            >
+              <MemberCutout member={slideMember} src={cutout} />
+            </div>
+          );
+        })}
+      </div>
+
+      <div className={styles.copy}>
+        <h1 id="hero-title" className={styles.title}>
+          {team.tagline}
+        </h1>
+        <p className={styles.description}>{team.description}</p>
+        <div className={styles.controls}>
+          <button
+            type="button"
+            className={styles.control}
+            aria-label="Previous member"
+            onClick={() => step(-1)}
+          >
+            <ArrowLeftIcon size={26} />
+          </button>
+          <button
+            type="button"
+            className={styles.control}
+            aria-label="Next member"
+            onClick={() => step(1)}
+          >
+            <ArrowRightIcon size={26} />
+          </button>
+        </div>
+        <Link to="/projects" className={styles.exploreInline}>
+          Explore our projects <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+
+      <Link to="/projects" className={styles.exploreCorner}>
+        Explore our projects
+        <ArrowRightIcon size={32} />
+      </Link>
+    </section>
   );
 }

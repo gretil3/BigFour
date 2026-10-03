@@ -9,65 +9,6 @@
 .scene {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity var(--hero-duration) var(--ease),
-    visibility 0s linear var(--hero-duration);
-}
-
-/* Hidden scenes stop animating, so only the visible one costs anything. */
-.scene:not([data-active='true']) * {
-  animation-play-state: paused;
-}
-
-.scene[data-active='true'] {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: 0s;
-}
-
-/* Forest: two ranks of pines in the hero's own shades, and drifting fireflies. */
-.trees {
-  position: absolute;
-  inset: auto 0 0;
-  width: 100%;
-  height: 62%;
-}
-
-.backTrees {
-  fill: color-mix(in srgb, var(--color-hero), var(--color-bg) 45%);
-}
-
-.frontTrees {
-  fill: color-mix(in srgb, var(--color-hero), var(--color-bg) 85%);
-}
-
-.firefly {
-  position: absolute;
-  border-radius: 50%;
-  background: var(--color-accent-soft);
-  box-shadow: 0 0 8px 2px color-mix(in srgb, var(--color-accent-soft) 70%, transparent);
-  opacity: 0;
-  animation:
-    drift 10s ease-in-out infinite alternate,
-    glow 4s ease-in-out infinite;
-}
-
-@keyframes drift {
-  to {
-    transform: translate(26px, -34px);
-  }
-}
-
-@keyframes glow {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.9;
-  }
 }
 
 /* Waves: contour lines that slowly slide sideways. */
@@ -103,11 +44,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .firefly {
-    animation: none;
-    opacity: 0.6;
-  }
-
   .waves {
     animation: none;
   }

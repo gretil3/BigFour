@@ -6,7 +6,7 @@ import styles from './FeaturedProjectsSection.module.css';
 
 export function FeaturedProjectsSection() {
   return (
-    <Section id="featured" labelledBy="featured-title" className={styles.section}>
+    <Section labelledBy="featured-title" className={styles.section}>
       <SectionHeader
         eyebrow="Featured work"
         title="Recent projects"

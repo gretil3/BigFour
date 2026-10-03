@@ -90,17 +90,18 @@ All content lives in one place, [`packages/shared/src/data`](packages/shared/src
 
 Web images are picked up automatically by file name. No code changes are needed.
 
-- **Member cutouts** for the home hero: `apps/web/src/assets/members/<member-slug>.png`. They should be transparent PNGs; see the [README there](apps/web/src/assets/members/README.md) for sizing. Until a member's file exists, the hero shows an empty frame.
+- **Member cutouts** for the home hero: `apps/web/src/assets/members/<member-slug>.png`. They should be transparent PNGs; see the [README there](apps/web/src/assets/members/README.md) for sizing. Until a member's file exists, the hero shows nothing in its place.
 - **Project screenshots**: `apps/web/src/assets/projects/<project-slug>.jpg` (PNG and WebP also work). Projects without one show a striped placeholder.
 
-## Giving each member their own home hero
+## Giving each member their own scenery
 
-While a member's slide is showing, the home hero can be a recreation of the hero on their personal portfolio, still carrying BigFour's headline, tagline and description. David's slide uses `ForestHero`, a port of the night forest from his site (moon, mist, three parallax ranks of pines, pointer-reactive canvas fireflies, the DESCEND cue). Members without one get `StandardHero`, the cutout carousel.
+The home hero keeps one layout for everyone; only the theme and the scenery behind it change. A member's `style.backdrop` picks the scenery, drawn by `apps/web/src/components/Backdrop.tsx` behind their home slide and their profile band:
 
-1. Build a component that takes `HeroProps` in `apps/web/src/features/home/heroes/`. Give its `h1` the id `HERO_TITLE_ID` while it is present, and its carousel buttons `data-hero-control="previous"` / `"next"`, so focus follows when heroes swap.
-2. Register it by slug in `heroes/registry.ts`.
+- `forest` (David): the night forest from his portfolio, ported in `components/forest/`. It has a moon, mist, three ranks of pines that drift with scroll and the pointer, and canvas fireflies that gather around the pointer.
+- `waves` (Kevin): contour lines that slowly slide sideways.
+- `none`: the member's flat hero color.
 
-Switching between members with different heroes cross-fades the two. The reusable forest pieces live in `apps/web/src/components/forest/`.
+To add one, add a name to `MemberStyle['backdrop']` in `packages/shared/src/types.ts` and draw it in `Backdrop.tsx`. Only the active scene is mounted, and switching members cross-fades between scenes.
 
 ## Giving each member their own layout
 

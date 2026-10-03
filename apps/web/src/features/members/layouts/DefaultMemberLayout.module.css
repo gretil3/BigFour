@@ -7,8 +7,10 @@
   color: var(--color-heading);
 }
 
+/* The ghost name and the intro sit above the member's backdrop scenery (z-index 1). */
 .ghost {
   position: absolute;
+  z-index: 2;
   right: -0.03em;
   bottom: -0.14em;
   pointer-events: none;
@@ -27,6 +29,7 @@
 
 .intro {
   position: relative;
+  z-index: 2;
   max-width: var(--content-max);
   margin: 0 auto;
   padding: clamp(56px, 9vw, 120px) var(--gutter) clamp(48px, 7vw, 88px);
