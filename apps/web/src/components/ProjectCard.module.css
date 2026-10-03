@@ -24,14 +24,14 @@ a.card:hover {
   aspect-ratio: 16 / 10;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgb(var(--rgb-emerald-300) / 0.14);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 14%, transparent);
   background:
     repeating-linear-gradient(
       135deg,
-      rgb(var(--rgb-slate-400) / 0.06) 0 10px,
+      color-mix(in srgb, var(--color-muted) 6%, transparent) 0 10px,
       transparent 10px 20px
     ),
-    #131c2e;
+    var(--color-surface);
 }
 
 .image {
@@ -65,11 +65,11 @@ a.card:hover {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--emerald-50);
-  background: rgb(var(--rgb-slate-900) / 0.78);
+  color: var(--color-heading);
+  background: color-mix(in srgb, var(--color-bg) 78%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgb(var(--rgb-emerald-300) / 0.25);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
 }
 
 .dot {

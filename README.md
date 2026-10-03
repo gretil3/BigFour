@@ -28,11 +28,41 @@ The web app is styled with CSS Modules. Design tokens (colors, fonts, spacing, m
 
 ## Getting started
 
-Requires Node 22.12+ (`.nvmrc` pins 24).
+Requires Node 22.12+ (`.nvmrc` pins 24) and npm, which comes with Node.
+
+### Run the web app locally
+
+Run these from the repository root, not from `apps/web`:
 
 ```bash
-npm install
+npm install        # once, and again after pulling dependency changes
+npm run dev:web
 ```
+
+Open the address Vite prints, normally <http://localhost:5173/>. If that port is taken, Vite picks the next free one (5174, 5175, …) and prints it. Edits to the code or to `packages/shared/src/data` reload the page automatically. Stop the server with `Ctrl+C`.
+
+To use a specific port, pass it after `--`:
+
+```bash
+npm run dev -w @bigfour/web -- --port 3000
+```
+
+To check the production build locally:
+
+```bash
+npm run build:web
+npm run preview -w @bigfour/web   # serves apps/web/dist
+```
+
+### Run the mobile app locally
+
+```bash
+npm run dev:mobile
+```
+
+Scan the QR code with Expo Go on your phone, or press `a` (Android emulator), `i` (iOS simulator, macOS only) or `w` (browser) in the terminal.
+
+### All commands
 
 | Command              | What it does                                    |
 | -------------------- | ----------------------------------------------- |
@@ -48,7 +78,7 @@ npm install
 All content lives in one place, [`packages/shared/src/data`](packages/shared/src/data), and both apps read from it.
 
 - `team.ts`: the group name, tagline and description. The tagline is still the design's placeholder.
-- `members.ts`: each member's role, links and `palette`, the colors from their personal portfolio that theme their hero slide and profile page. `slug` becomes the URL (`/members/<slug>`).
+- `members.ts`: each member's role, links and `palette`, the colors from their personal portfolio. While a member is featured (their home hero slide, their profile page) the palette themes the whole site, header to footer. `slug` becomes the URL (`/members/<slug>`).
 - `services.ts`: the "What we build" cards, each led by one member.
 - `awards.ts`: the "Awards & hackathons" list.
 - `projects.ts`: projects with a `status` of `completed`, `in-progress` or `planned`. `featured: true` puts one under "Recent projects" on the home page.

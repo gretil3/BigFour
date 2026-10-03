@@ -12,19 +12,30 @@ export interface Team {
 }
 
 /**
- * Colors lifted from a member's personal portfolio. They theme the member's
- * slide in the home hero and their profile page.
+ * Colors lifted from a member's personal portfolio. While the member is featured
+ * (their home hero slide, their profile page) they theme the whole site.
  */
 export interface MemberPalette {
-  /** Whether `background` is light or dark, so chrome drawn over it can adapt. */
+  /** Whether the backgrounds are light or dark, so browser UI like scrollbars can match. */
   tone: 'light' | 'dark';
+  /** Page background. */
   background: string;
-  /** Oversized decorative text drawn behind the content. */
-  ghost: string;
+  /** Hero slide and profile band. Often brighter than `background`, like the member's own hero. */
+  hero: string;
+  /** Cards and other raised panels. */
+  surface: string;
+  /** Headings and body text. */
   text: string;
+  /** Secondary text. */
+  muted: string;
+  /** Hairlines and card borders. */
+  border: string;
+  /** Signature color: numbers, eyebrows, links and active states. */
   accent: string;
-  /** Translucent fill for hover states on `background`. */
-  hover: string;
+  /** Lighter take on `accent`, for tags and link hovers. */
+  accentSoft: string;
+  /** Oversized decorative text drawn behind the hero. */
+  ghost: string;
 }
 
 export interface Member {

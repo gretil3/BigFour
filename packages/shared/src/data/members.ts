@@ -17,14 +17,18 @@ export const members: Member[] = [
       { platform: 'linkedin', url: 'https://www.linkedin.com/in/david-sinambela-754a89324/' },
       { platform: 'instagram', url: 'https://www.instagram.com/dvd_snmbela4/' },
     ],
-    // Forest canopy
+    // Dark forest: fern and firefly on night-forest green
     palette: {
       tone: 'dark',
-      background: '#12301F',
-      ghost: '#D9F99D',
-      text: '#F7FEE7',
+      background: '#07100B',
+      hero: '#12301F',
+      surface: '#0E1A14',
+      text: '#EEF3EA',
+      muted: '#9DB3A4',
+      border: 'rgba(163, 230, 186, 0.1)',
       accent: '#6FCF8F',
-      hover: 'rgba(217, 249, 157, 0.12)',
+      accentSoft: '#D9F99D',
+      ghost: '#D9F99D',
     },
   },
   {
@@ -32,14 +36,18 @@ export const members: Member[] = [
     name: 'Kevin Sukias K',
     role: 'Software Engineer · PM',
     socials: [{ platform: 'portfolio', url: 'https://kevin-sukias.vercel.app/' }],
-    // BigFour emerald (Kevin's own palette is still pending)
+    // Green wave: sage and foam on deep green, cream type
     palette: {
       tone: 'dark',
-      background: '#047857',
-      ghost: '#FFFFFF',
-      text: '#FFFFFF',
-      accent: '#A7F3D0',
-      hover: 'rgba(255, 255, 255, 0.12)',
+      background: '#09110D',
+      hero: '#2C382F',
+      surface: '#111D18',
+      text: '#EEEAE0',
+      muted: '#ABAEA4',
+      border: '#25352E',
+      accent: '#7CBC97',
+      accentSoft: '#C1E1D3',
+      ghost: '#EEEAE0',
     },
   },
   {
@@ -50,14 +58,18 @@ export const members: Member[] = [
       { platform: 'github', url: 'https://github.com/geraldadli' },
       { platform: 'linkedin', url: 'https://www.linkedin.com/in/gerald-adli' },
     ],
-    // Research paper + terracotta
+    // Editorial black + lime
     palette: {
-      tone: 'light',
-      background: '#FAFAF9',
-      ghost: '#B84825',
-      text: '#202120',
-      accent: '#B84825',
-      hover: 'rgba(184, 72, 37, 0.08)',
+      tone: 'dark',
+      background: '#080808',
+      hero: '#080808',
+      surface: '#101010',
+      text: '#F5F5F0',
+      muted: '#A5A5A0',
+      border: '#30302E',
+      accent: '#BBFF36',
+      accentSoft: '#D2FB80',
+      ghost: '#BBFF36',
     },
   },
   {
@@ -72,10 +84,14 @@ export const members: Member[] = [
     palette: {
       tone: 'dark',
       background: '#000000',
-      ghost: '#F5F5F7',
+      hero: '#000000',
+      surface: '#0A0A0A',
       text: '#F5F5F7',
+      muted: '#86868B',
+      border: 'rgba(255, 255, 255, 0.08)',
       accent: '#2997FF',
-      hover: 'rgba(41, 151, 255, 0.14)',
+      accentSoft: '#52AAFF',
+      ghost: '#F5F5F7',
     },
   },
 ];

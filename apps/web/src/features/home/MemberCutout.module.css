@@ -13,8 +13,7 @@
   display: grid;
   place-items: center;
   background: rgb(127 127 127 / 0.08);
-  color: var(--palette-text);
-  transition: color var(--hero-duration) var(--ease);
+  color: var(--color-heading);
 }
 
 .placeholder::after {

@@ -2,16 +2,10 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgb(var(--rgb-slate-900) / 0.35);
+  background: color-mix(in srgb, var(--color-bg) 35%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-border-accent);
-  transition: background var(--hero-duration) var(--ease);
-}
-
-/* Over a light hero slide the header needs more body to stay legible. */
-body:has([data-hero-tone='light']) .header {
-  background: rgb(var(--rgb-slate-900) / 0.82);
 }
 
 .nav {
@@ -29,7 +23,7 @@ body:has([data-hero-tone='light']) .header {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--slate-50);
+  color: var(--color-heading);
   text-decoration: none;
   font-weight: 800;
   font-size: 18px;
@@ -46,12 +40,12 @@ body:has([data-hero-tone='light']) .header {
   width: 9px;
   height: 9px;
   border-radius: 2px;
-  border: 1.5px solid var(--emerald-500);
+  border: 1.5px solid var(--color-accent);
 }
 
 .mark span:first-child {
   border: 0;
-  background: var(--emerald-500);
+  background: var(--color-accent);
 }
 
 .links {
@@ -59,7 +53,7 @@ body:has([data-hero-tone='light']) .header {
   gap: 4px;
   padding: 4px;
   border-radius: 999px;
-  background: rgb(var(--rgb-slate-800) / 0.6);
+  background: color-mix(in srgb, var(--color-surface) 80%, transparent);
   border: 1px solid var(--color-border);
 }
 
@@ -69,17 +63,17 @@ body:has([data-hero-tone='light']) .header {
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
-  color: var(--slate-400);
+  color: var(--color-muted);
   transition: color 0.2s;
 }
 
 .link:hover {
-  color: var(--slate-100);
+  color: var(--color-heading);
 }
 
 .link[aria-current='page'] {
   font-weight: 600;
-  color: var(--emerald-50);
-  background: rgb(var(--rgb-emerald-500) / 0.18);
-  box-shadow: inset 0 0 0 1px rgb(var(--rgb-emerald-300) / 0.3);
+  color: var(--color-heading);
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }

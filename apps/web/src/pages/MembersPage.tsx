@@ -2,7 +2,6 @@ import { Link } from 'react-router';
 import { members, team } from '@bigfour/shared';
 import { Section, SectionHeader, SectionLede } from '../components/Section';
 import { formatIndex } from '../lib/format';
-import { paletteStyle } from '../lib/palette';
 import styles from './MembersPage.module.css';
 
 export function MembersPage() {
@@ -19,12 +18,12 @@ export function MembersPage() {
       <ul className={styles.grid}>
         {members.map((member, index) => (
           <li key={member.slug}>
-            <Link
-              to={`/members/${member.slug}`}
-              className={styles.card}
-              style={paletteStyle(member.palette)}
-            >
-              <span className={styles.swatch} aria-hidden="true">
+            <Link to={`/members/${member.slug}`} className={styles.card}>
+              <span
+                className={styles.swatch}
+                style={{ backgroundColor: member.palette.hero, color: member.palette.ghost }}
+                aria-hidden="true"
+              >
                 {member.name.charAt(0)}
               </span>
               <span className={styles.number}>{formatIndex(index + 1)}</span>

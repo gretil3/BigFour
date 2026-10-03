@@ -22,7 +22,7 @@
 }
 
 .card:hover {
-  border-color: rgb(var(--rgb-emerald-300) / 0.4);
+  border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
   transform: translateY(-3px);
   background: var(--color-surface-hover);
 }
@@ -35,7 +35,7 @@
 
 .number {
   font: 500 12px var(--font-mono);
-  color: var(--emerald-500);
+  color: var(--color-accent);
 }
 
 .lead {
@@ -68,14 +68,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  border-top: 1px solid rgb(var(--rgb-slate-400) / 0.1);
+  border-top: 1px solid var(--color-border);
 }
 
 .tool {
   padding: 5px 10px;
   border-radius: 999px;
   font: 500 11.5px var(--font-mono);
-  color: var(--emerald-200);
-  background: rgb(var(--rgb-emerald-500) / 0.08);
-  border: 1px solid rgb(var(--rgb-emerald-300) / 0.16);
+  color: var(--color-accent-soft);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 16%, transparent);
 }

@@ -24,12 +24,12 @@
   align-items: baseline;
   gap: 20px;
   padding: 22px 0;
-  border-top: 1px solid rgb(var(--rgb-slate-400) / 0.14);
+  border-top: 1px solid var(--color-border);
 }
 
 .year {
   font: 500 13px var(--font-mono);
-  color: var(--emerald-500);
+  color: var(--color-accent);
 }
 
 .body {
@@ -58,6 +58,6 @@
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
-  color: var(--emerald-200);
-  border: 1px solid rgb(var(--rgb-emerald-300) / 0.22);
+  color: var(--color-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { members, team } from '@bigfour/shared';
 import { ArrowLeftIcon, ArrowRightIcon } from '../../components/icons';
 import { formatIndex } from '../../lib/format';
-import { paletteStyle } from '../../lib/palette';
+import { useMemberTheme } from '../../lib/theme';
 import { MemberCutout } from './MemberCutout';
 import styles from './HomeHero.module.css';
 
@@ -21,14 +21,15 @@ function getSlidePosition(index: number, active: number): SlidePosition {
 }
 
 /**
- * Full-screen carousel of the members. Each slide recolors the hero (and the
- * header's tone) with that member's portfolio palette.
+ * Full-screen carousel of the members. Each slide re-themes the whole site,
+ * from the header down to the footer, with that member's portfolio palette.
  */
 export function HomeHero() {
   const [active, setActive] = useState(0);
   const lockedUntil = useRef(0);
 
   const member = members[active];
+  useMemberTheme(member?.palette);
   if (!member) return null;
 
   function step(direction: 1 | -1) {
@@ -39,13 +40,7 @@ export function HomeHero() {
   }
 
   return (
-    <section
-      className={styles.hero}
-      style={paletteStyle(member.palette)}
-      data-hero-tone={member.palette.tone}
-      aria-labelledby="hero-title"
-      aria-roledescription="carousel"
-    >
+    <section className={styles.hero} aria-labelledby="hero-title" aria-roledescription="carousel">
       <div className={styles.grain} aria-hidden="true" />
       <div className={styles.ghost} aria-hidden="true">
         {team.name}

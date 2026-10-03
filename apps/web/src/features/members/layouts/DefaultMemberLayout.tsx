@@ -2,7 +2,6 @@ import { getFirstName, socialPlatformLabels, team } from '@bigfour/shared';
 import { ProjectGrid } from '../../../components/ProjectCard';
 import { Section, SectionHeader } from '../../../components/Section';
 import { ServiceGrid } from '../../../components/ServiceCard';
-import { paletteStyle } from '../../../lib/palette';
 import styles from './DefaultMemberLayout.module.css';
 import type { MemberLayoutProps } from './types';
 
@@ -12,7 +11,7 @@ export function DefaultMemberLayout({ member, services, projects }: MemberLayout
   return (
     <article>
       <title>{`${member.name} · ${team.name}`}</title>
-      <header className={styles.band} style={paletteStyle(member.palette)}>
+      <header className={styles.band}>
         <span className={styles.ghost} aria-hidden="true">
           {firstName}
         </span>

@@ -10,8 +10,7 @@
   /* clip, not hidden: the enlarged center slide overflows the hero, and a "hidden"
      scroll container would scroll it whenever a control is focused into view. */
   overflow: clip;
-  background-color: var(--palette-bg);
-  transition: background-color var(--hero-duration) var(--ease);
+  background-color: var(--color-hero);
 }
 
 .grain {
@@ -46,8 +45,7 @@
   letter-spacing: -0.02em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: var(--palette-ghost);
-  transition: color var(--hero-duration) var(--ease);
+  color: var(--color-ghost);
 }
 
 .status {
@@ -64,15 +62,13 @@
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--palette-text);
-  transition: color var(--hero-duration) var(--ease);
+  color: var(--color-heading);
 }
 
 .counter {
   font-family: var(--font-mono);
   letter-spacing: 0.04em;
-  color: var(--palette-accent);
-  transition: color var(--hero-duration) var(--ease);
+  color: var(--color-accent);
 }
 
 .role {
@@ -154,17 +150,15 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--palette-text);
-  transition: color var(--hero-duration) var(--ease);
+  color: var(--color-heading);
 }
 
 .description {
   margin: 0 0 20px;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--palette-text);
+  color: var(--color-heading);
   opacity: 0.9;
-  transition: color var(--hero-duration) var(--ease);
 }
 
 .controls {
@@ -180,19 +174,17 @@
   place-items: center;
   border-radius: 50%;
   background: transparent;
-  border: 2px solid var(--palette-accent);
-  color: var(--palette-text);
+  border: 2px solid var(--color-accent);
+  color: var(--color-heading);
   cursor: pointer;
   transition:
     transform 150ms,
-    background-color 150ms,
-    color var(--hero-duration),
-    border-color var(--hero-duration);
+    background-color 150ms;
 }
 
 .control:hover {
   transform: scale(1.08);
-  background-color: var(--palette-hover);
+  background-color: var(--color-hover);
 }
 
 /* "Explore our projects": a big corner link on wide screens, under the controls on phones. */
@@ -204,7 +196,7 @@
   line-height: 1;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--palette-text);
+  color: var(--color-heading);
 }
 
 .exploreCorner {
@@ -217,14 +209,12 @@
   font-size: clamp(20px, 4vw, 56px);
   letter-spacing: -0.02em;
   opacity: 0.95;
-  transition:
-    opacity 200ms,
-    color var(--hero-duration);
+  transition: opacity 200ms;
 }
 
 .exploreCorner:hover {
   opacity: 1;
-  color: var(--palette-accent);
+  color: var(--color-accent);
 }
 
 .exploreInline {
@@ -234,7 +224,6 @@
   margin-top: 18px;
   font-size: 24px;
   letter-spacing: -0.01em;
-  transition: color var(--hero-duration) var(--ease);
 }
 
 @media (max-width: 639px) {

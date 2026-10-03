@@ -5,9 +5,9 @@
   font-weight: 600;
   font-size: 15px;
   text-decoration: none;
-  color: var(--emerald-300);
+  color: var(--color-link);
 }
 
 .link:hover {
-  color: var(--emerald-200);
+  color: var(--color-link-hover);
 }

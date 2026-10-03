@@ -25,7 +25,7 @@
 }
 
 .card:hover {
-  border-color: rgb(var(--rgb-emerald-300) / 0.4);
+  border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
   transform: translateY(-3px);
   background: var(--color-surface-hover);
 }
@@ -37,8 +37,6 @@
   aspect-ratio: 4 / 3;
   margin-bottom: 14px;
   border-radius: 12px;
-  background: var(--palette-bg);
-  color: var(--palette-ghost);
   font-family: var(--font-display);
   font-size: 96px;
   line-height: 1;
@@ -52,7 +50,7 @@
 
 .number {
   font: 500 12px var(--font-mono);
-  color: var(--emerald-500);
+  color: var(--color-accent);
 }
 
 .name {

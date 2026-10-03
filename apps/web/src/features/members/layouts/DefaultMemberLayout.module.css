@@ -1,10 +1,10 @@
-/* Intro band in the member's own portfolio palette, like their home hero slide. */
+/* Intro band in the member's hero color, like their home hero slide. */
 .band {
   position: relative;
   /* clip, not hidden, so focusing a link can't scroll the oversized ghost text into view. */
   overflow: clip;
-  background: var(--palette-bg);
-  color: var(--palette-text);
+  background: var(--color-hero);
+  color: var(--color-heading);
 }
 
 .ghost {
@@ -19,7 +19,7 @@
   line-height: 1;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--palette-ghost);
+  color: var(--color-ghost);
   opacity: 0.18;
 }
 
@@ -38,7 +38,7 @@
   font: 500 12px var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--palette-accent);
+  color: var(--color-accent);
 }
 
 .name {
@@ -65,8 +65,8 @@
   gap: 6px;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1.5px solid var(--palette-accent);
-  color: var(--palette-text);
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-heading);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -74,5 +74,5 @@
 }
 
 .social:hover {
-  background-color: var(--palette-hover);
+  background-color: var(--color-hover);
 }

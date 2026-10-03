@@ -24,7 +24,7 @@
   font: 500 12px var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--emerald-300);
+  color: var(--color-accent);
 }
 
 .title {

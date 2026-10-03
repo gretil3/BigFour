@@ -1,6 +1,6 @@
 .footer {
   border-top: 1px solid var(--color-border-accent);
-  background: rgb(var(--rgb-slate-950) / 0.4);
+  background: color-mix(in srgb, var(--color-bg) 70%, black);
 }
 
 .inner {
@@ -27,7 +27,7 @@
 .name {
   font-size: 15px;
   font-weight: 700;
-  color: var(--slate-100);
+  color: var(--color-heading);
 }
 
 .links {
@@ -38,12 +38,12 @@
 
 .link {
   font-size: 14px;
-  color: var(--slate-400);
+  color: var(--color-muted);
   text-decoration: none;
 }
 
 .link:hover {
-  color: var(--emerald-300);
+  color: var(--color-accent);
 }
 
 .bottom {
@@ -52,7 +52,7 @@
   justify-content: space-between;
   gap: 12px;
   padding-top: 24px;
-  border-top: 1px solid rgb(var(--rgb-slate-400) / 0.1);
+  border-top: 1px solid var(--color-border);
   font-size: 13px;
   color: var(--color-subtle);
 }
