@@ -93,6 +93,15 @@ Web images are picked up automatically by file name. No code changes are needed.
 - **Member cutouts** for the home hero: `apps/web/src/assets/members/<member-slug>.png`. They should be transparent PNGs; see the [README there](apps/web/src/assets/members/README.md) for sizing. Until a member's file exists, the hero shows an empty frame.
 - **Project screenshots**: `apps/web/src/assets/projects/<project-slug>.jpg` (PNG and WebP also work). Projects without one show a striped placeholder.
 
+## Giving each member their own home hero
+
+While a member's slide is showing, the home hero can be a recreation of the hero on their personal portfolio, still carrying BigFour's headline, tagline and description. David's slide uses `ForestHero`, a port of the night forest from his site (moon, mist, three parallax ranks of pines, pointer-reactive canvas fireflies, the DESCEND cue). Members without one get `StandardHero`, the cutout carousel.
+
+1. Build a component that takes `HeroProps` in `apps/web/src/features/home/heroes/`. Give its `h1` the id `HERO_TITLE_ID` while it is present, and its carousel buttons `data-hero-control="previous"` / `"next"`, so focus follows when heroes swap.
+2. Register it by slug in `heroes/registry.ts`.
+
+Switching between members with different heroes cross-fades the two. The reusable forest pieces live in `apps/web/src/components/forest/`.
+
 ## Giving each member their own layout
 
 Each member's page is rendered through a layout registry, so every member can have a profile inspired by their own portfolio. By default every member uses `DefaultMemberLayout`.

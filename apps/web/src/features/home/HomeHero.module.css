@@ -1,278 +1,32 @@
 .hero {
   position: relative;
-  /* Keep the z-indexed layers below from painting over the sticky header. */
+  /* Keep the z-indexed layers inside from painting over the sticky header. */
   isolation: isolate;
   /* Slide up under the sticky header so the palette fills the whole first screen. */
   margin-top: calc(-1 * var(--header-height));
   height: 100vh;
   height: 100svh;
   min-height: 640px;
-  /* clip, not hidden: the enlarged center slide overflows the hero, and a "hidden"
-     scroll container would scroll it whenever a control is focused into view. */
+  /* clip, not hidden: content overflows the hero, and a "hidden" scroll container would
+     scroll it whenever a control is focused into view. */
   overflow: clip;
   background-color: var(--color-hero);
 }
 
-.grain {
+/* One hero's layer. Two overlap while switching between members with different heroes. */
+.scene {
   position: absolute;
   inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0.4;
-  background-size: 200px 200px;
-  background-repeat: repeat;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
 }
 
-.ghost {
+.srOnly {
   position: absolute;
-  left: 0;
-  right: 0;
-  /* The design tucks the hero a fixed 69px under the header. The hero here tucks under the
-     real header height, so add back the difference to keep the wordmark clear of the status
-     line when the nav wraps on phones. */
-  top: calc(18% + var(--header-height) - 69px);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  user-select: none;
-  font-family: var(--font-display);
-  font-size: calc(clamp(90px, 28vw, 380px) * var(--display-scale));
-  font-weight: var(--display-weight);
-  font-stretch: var(--display-stretch);
-  line-height: 1;
-  letter-spacing: var(--display-tracking);
-  text-transform: var(--display-transform);
-  white-space: nowrap;
-  color: var(--color-ghost);
-}
-
-.status {
-  position: absolute;
-  top: calc(var(--header-height) + 27px);
-  left: clamp(16px, 2.5vw, 32px);
-  right: clamp(16px, 2.5vw, 32px);
-  z-index: 60;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-heading);
-}
-
-/* Every member ends their headline with a period in their accent color; the wordmark does too. */
-.ghost::after {
-  content: var(--display-after);
-  color: var(--color-accent);
-}
-
-.counter {
-  font-family: var(--font-mono);
-  letter-spacing: 0.04em;
-  color: var(--color-accent);
-}
-
-.role {
-  opacity: 0.75;
-}
-
-/* Member cutouts: one center stage, neighbours to the sides, the rest at the back. */
-.stage {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-}
-
-.slide {
-  position: absolute;
-  aspect-ratio: 0.6 / 1;
-  container-type: inline-size;
-  transform: translateX(-50%) scale(1);
-  transition:
-    transform var(--hero-duration) var(--ease),
-    filter var(--hero-duration) var(--ease),
-    opacity var(--hero-duration) var(--ease),
-    left var(--hero-duration) var(--ease),
-    height var(--hero-duration) var(--ease),
-    bottom var(--hero-duration) var(--ease);
-  will-change: transform, filter, opacity;
-}
-
-.slide[data-position='center'] {
-  z-index: 20;
-  left: 50%;
-  bottom: 0;
-  height: 92%;
-  transform: translateX(-50%) scale(1.68);
-  filter: blur(0);
-  opacity: 1;
-}
-
-.slide[data-position='left'],
-.slide[data-position='right'] {
-  z-index: 10;
-  bottom: 12%;
-  height: 28%;
-  filter: blur(2px);
-  opacity: 0.85;
-}
-
-.slide[data-position='left'] {
-  left: 30%;
-}
-
-.slide[data-position='right'] {
-  left: 70%;
-}
-
-.slide[data-position='back'] {
-  z-index: 5;
-  left: 50%;
-  bottom: 12%;
-  height: 22%;
-  filter: blur(4px);
-  opacity: 1;
-}
-
-.copy {
-  position: absolute;
-  left: clamp(16px, 6vw, 96px);
-  bottom: clamp(24px, 8vh, 80px);
-  z-index: 60;
-  max-width: 340px;
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  margin: 0 0 12px;
-  font-family: var(--font-heading);
-  font-size: clamp(16px, 1.8vw, 22px);
-  line-height: 1.25;
-  font-weight: var(--heading-weight-sm);
-  font-stretch: var(--heading-stretch);
-  letter-spacing: -0.01em;
-  text-transform: var(--heading-transform);
-  color: var(--color-heading);
-}
-
-.description {
-  margin: 0 0 20px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-heading);
-  opacity: 0.9;
-}
-
-.controls {
-  display: flex;
-  gap: 12px;
-}
-
-.control {
-  width: 64px;
-  height: 64px;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
   padding: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: transparent;
-  border: 2px solid var(--color-accent);
-  color: var(--color-heading);
-  cursor: pointer;
-  transition:
-    transform 150ms,
-    background-color 150ms;
-}
-
-.control:hover {
-  transform: scale(1.08);
-  background-color: var(--color-hover);
-}
-
-/* "Explore our projects": a big corner link on wide screens, under the controls on phones. */
-.exploreCorner,
-.exploreInline {
-  align-items: center;
-  font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  font-stretch: var(--display-stretch);
-  line-height: 1;
-  text-transform: var(--display-transform);
-  text-decoration: none;
-  color: var(--color-heading);
-}
-
-.exploreCorner {
-  position: absolute;
-  right: clamp(16px, 2.5vw, 40px);
-  bottom: clamp(24px, 8vh, 80px);
-  z-index: 60;
-  display: flex;
-  gap: 12px;
-  font-size: calc(clamp(20px, 4vw, 56px) * var(--display-scale));
-  letter-spacing: var(--display-tracking);
-  opacity: 0.95;
-  transition: opacity 200ms;
-}
-
-.exploreCorner:hover {
-  opacity: 1;
-  color: var(--color-accent);
-}
-
-.exploreInline {
-  display: none;
-  align-self: flex-start;
-  gap: 8px;
-  margin-top: 18px;
-  font-size: calc(24px * var(--display-scale));
-  letter-spacing: var(--display-tracking);
-}
-
-@media (max-width: 639px) {
-  .slide[data-position='center'] {
-    bottom: 22%;
-    height: 60%;
-    transform: translateX(-50%) scale(1.25);
-  }
-
-  .slide[data-position='left'],
-  .slide[data-position='right'] {
-    bottom: 32%;
-    height: 16%;
-  }
-
-  .slide[data-position='left'] {
-    left: 20%;
-  }
-
-  .slide[data-position='right'] {
-    left: 80%;
-  }
-
-  .slide[data-position='back'] {
-    bottom: 32%;
-    height: 13%;
-  }
-
-  .description,
-  .exploreCorner {
-    display: none;
-  }
-
-  .control {
-    width: 48px;
-    height: 48px;
-  }
-
-  .exploreInline {
-    display: inline-flex;
-  }
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

@@ -3,15 +3,17 @@ import { cx } from '../lib/cx';
 import styles from './Section.module.css';
 
 interface SectionProps {
+  /** Anchor for in-page links such as the hero's "Explore our projects". */
+  id?: string;
   labelledBy?: string;
   className?: string;
   children: ReactNode;
 }
 
 /** Centered, max-width page section with the design's standard padding. */
-export function Section({ labelledBy, className, children }: SectionProps) {
+export function Section({ id, labelledBy, className, children }: SectionProps) {
   return (
-    <section aria-labelledby={labelledBy} className={cx(styles.section, className)}>
+    <section id={id} aria-labelledby={labelledBy} className={cx(styles.section, className)}>
       {children}
     </section>
   );

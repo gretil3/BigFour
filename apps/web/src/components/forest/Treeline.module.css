@@ -1,0 +1,13 @@
+/*
+ * Height follows the width through the layer's own aspect ratio, so the slice only
+ * ever trims the bled sides, never the crowns. A min-height (from the caller) takes
+ * over on narrow viewports, which likewise keeps the full height and slices sideways.
+ */
+.treeline {
+  position: absolute;
+  bottom: 0;
+  left: -5%;
+  width: 110%;
+  height: auto;
+  pointer-events: none;
+}
