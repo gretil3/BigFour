@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, type CSSProperties } from 'react';
 import type { Member, MemberStyle } from '@bigfour/shared';
 
 type Vars = Record<string, string>;
@@ -182,6 +182,31 @@ function themeOf({ palette, style }: Member): Vars {
     ...shapes[style.shape],
     ...labels[style.label],
   };
+}
+
+/*
+ * Tokens that global.css derives from the theme colors and fonts on :root. A var() resolves
+ * where it is declared and its result is what children inherit, so an element carrying its own
+ * theme has to derive them again, or it would mix its colors with the page's.
+ */
+const derivedDefaults: Vars = {
+  '--color-subtle': 'color-mix(in srgb, var(--color-muted) 65%, var(--color-bg))',
+  '--color-surface-hover': 'color-mix(in srgb, var(--color-surface), var(--color-heading) 3%)',
+  '--color-border-accent': 'color-mix(in srgb, var(--color-accent) 12%, transparent)',
+  '--color-hover': 'color-mix(in srgb, var(--color-accent) 14%, transparent)',
+  '--color-link': 'var(--color-accent)',
+  '--color-link-hover': 'var(--color-accent-soft)',
+  '--label-font': 'var(--font-mono)',
+  '--label-color': 'var(--color-muted)',
+  '--action-font': 'var(--font-sans)',
+};
+
+/**
+ * `member`'s theme as inline style for one element: everything inside it, text, labels,
+ * corners and colors, follows the member while the rest of the page keeps its own theme.
+ */
+export function themeVars(member: Member): CSSProperties {
+  return { ...derivedDefaults, ...themeOf(member) } as CSSProperties;
 }
 
 function setTheme(root: HTMLElement, member: Member | undefined) {

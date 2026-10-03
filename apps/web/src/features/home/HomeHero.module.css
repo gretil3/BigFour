@@ -13,6 +13,25 @@
   background-color: var(--color-hero);
 }
 
+/* BigFour's slide: the four panels, above the member scenery and below the text. */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .grain {
   position: absolute;
   inset: 0;

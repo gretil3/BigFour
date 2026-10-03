@@ -103,6 +103,14 @@ The home hero keeps one layout for everyone; only the theme and the scenery behi
 
 To add one, add a name to `MemberStyle['backdrop']` in `packages/shared/src/types.ts` and draw it in `Backdrop.tsx`. Only the active scene is mounted, and switching members cross-fades between scenes.
 
+## BigFour's own slide
+
+The home carousel has five slides: BigFour first, then one per member. BigFour's slide (`features/home/TeamPanels.tsx`) shows all four themes at once, as four equal panels split by thin lines. Each panel is that member's real theme (colors, scenery, label style and typeface), and the wordmark is shared out between them, a part each in that panel's typeface (`Bi | gF | ou | r.`), cut between letters so it stays readable. The parts are set to one size so they sit level across the lines.
+
+- Text that sits on a panel takes that panel's member's style: the tagline block is on David's panel, and the index and "Explore our projects" link are on Fiko's. `themeVars(member)` in `lib/theme.ts` scopes a member's theme to a single element.
+- The rest of the page, including the header and everything below the hero, uses BigFour's own neutral black theme while this slide is showing.
+- The panels and wordmark parts are built from `members`, so they follow the member list.
+
 ## Giving each member their own layout
 
 Each member's page is rendered through a layout registry, so every member can have a profile inspired by their own portfolio. By default every member uses `DefaultMemberLayout`.

@@ -1,0 +1,114 @@
+/*
+ * BigFour's own slide: the hero cut into four panels, one per member, each in that member's
+ * real theme. The wordmark is shared out between them, a part each, in each panel's typeface.
+ */
+.panels {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.panel {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--color-hero);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+/* The thin line between two panels. */
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 5;
+  width: 1px;
+  background: rgb(255 255 255 / 0.22);
+}
+
+.panel:last-child::after {
+  display: none;
+}
+
+/* Every panel centers its part of the word on the same line. */
+.word {
+  position: absolute;
+  inset-inline: 0;
+  z-index: 2;
+  top: calc(34% + (var(--header-height) - 69px) / 2);
+  display: flex;
+  justify-content: center;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Same type rules as the wordmark on the member slides. The size is only a starting point:
+   TeamPanels sets one size for all four parts. */
+.wordText {
+  font-family: var(--font-display);
+  font-size: calc(clamp(90px, 28vw, 380px) * var(--display-scale));
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+  white-space: nowrap;
+  color: var(--color-ghost);
+}
+
+/* The period that ends every member's headline closes the word, on the last panel. */
+.wordText[data-last]::after {
+  content: var(--display-after);
+  color: var(--color-accent);
+}
+
+.caption {
+  position: absolute;
+  top: calc(var(--header-height) + 27px);
+  left: clamp(12px, 1.6vw, 24px);
+  right: 8px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* David's moon can sit right behind his label; the shadow keeps the text readable. */
+  text-shadow: 0 0 10px var(--color-hero);
+}
+
+/* The member's own label dressing: `// David`, `( 03 GERALD )`, wide-tracked caps, mono caps. */
+.label {
+  margin: 0;
+  font: var(--label-weight) var(--label-size) var(--label-font);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  color: var(--label-color);
+}
+
+.label::before {
+  content: var(--label-before);
+}
+
+.label::after {
+  content: var(--label-after);
+}
+
+.number {
+  margin-right: 0.6em;
+  color: var(--color-accent);
+}
+
+.role {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+
+@media (max-width: 639px) {
+  .number,
+  .role {
+    display: none;
+  }
+}
