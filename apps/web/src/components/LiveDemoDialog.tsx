@@ -6,20 +6,30 @@ interface LiveDemoDialogProps {
   open: boolean;
   onClose: () => void;
   title: string;
-  /** Page shown in the window; the site must allow iframe embedding. */
-  embedUrl: string;
+  /** Video played in the window. When set, it takes the place of the live site. */
+  trailer?: string;
+  /** Page shown in the window when there is no trailer; the site must allow iframe embedding. */
+  embedUrl?: string;
   /** Opened by "open in a new tab", when it differs from the embedded page. */
   liveUrl?: string;
 }
 
 /**
- * A project's live site in a browser-style window over the page. A native modal dialog, so
- * Escape closes it and focus returns to the button that opened it; a click on the backdrop
- * closes it too.
+ * A project's preview in a browser-style window over the page: its trailer when it has one,
+ * otherwise its live site. A native modal dialog, so Escape closes it and focus returns to the
+ * button that opened it; a click on the backdrop closes it too.
  */
-export function LiveDemoDialog({ open, onClose, title, embedUrl, liveUrl }: LiveDemoDialogProps) {
+export function LiveDemoDialog({
+  open,
+  onClose,
+  title,
+  trailer,
+  embedUrl,
+  liveUrl,
+}: LiveDemoDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const siteUrl = liveUrl ?? embedUrl;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -41,7 +51,7 @@ export function LiveDemoDialog({ open, onClose, title, embedUrl, liveUrl }: Live
     <dialog
       ref={dialogRef}
       className={styles.dialog}
-      aria-label={`${title} live demo`}
+      aria-label={trailer ? `${title} trailer` : `${title} live demo`}
       onClose={onClose}
       onClick={(event) => {
         // The window fills the dialog, so a click on the dialog itself landed on the backdrop.
@@ -55,32 +65,75 @@ export function LiveDemoDialog({ open, onClose, title, embedUrl, liveUrl }: Live
           <span />
         </div>
         <div className={styles.address}>
-          <span className={styles.live} aria-hidden="true" />
-          <span>{new URL(embedUrl).host}</span>
+          {trailer ? (
+            <span className={styles.tag}>Trailer</span>
+          ) : (
+            <span className={styles.live} aria-hidden="true" />
+          )}
+          <span>{siteUrl ? new URL(siteUrl).host : title}</span>
         </div>
         <button
           type="button"
           className={styles.action}
-          aria-label="Reload demo"
+          aria-label={trailer ? 'Replay trailer' : 'Reload demo'}
           onClick={() => setReloadKey((key) => key + 1)}
         >
           <ReloadIcon size={15} />
         </button>
-        <a
-          href={liveUrl ?? embedUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+        {siteUrl && (
+          <a
+            href={siteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.action}
+            aria-label={`Open ${title} in a new tab`}
+          >
+            <ExternalLinkIcon size={15} />
+          </a>
+        )}
+        <button
+          type="button"
           className={styles.action}
-          aria-label={`Open ${title} in a new tab`}
+          aria-label="Close preview"
+          onClick={onClose}
         >
-          <ExternalLinkIcon size={15} />
-        </a>
-        <button type="button" className={styles.action} aria-label="Close demo" onClick={onClose}>
           <CloseIcon size={17} />
         </button>
       </div>
-      {open && <DemoFrame key={`${embedUrl}-${reloadKey}`} url={embedUrl} title={title} />}
+      {/* Mounted only while open, so closing the window also stops the video. */}
+      {open && trailer && (
+        <TrailerFrame key={`${trailer}-${reloadKey}`} src={trailer} title={title} />
+      )}
+      {open && !trailer && embedUrl && (
+        <DemoFrame key={`${embedUrl}-${reloadKey}`} url={embedUrl} title={title} />
+      )}
     </dialog>
+  );
+}
+
+function TrailerFrame({ src, title }: { src: string; title: string }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className={styles.frame}>
+      {!loaded && (
+        <div className={styles.loading} role="status">
+          <LoaderIcon size={24} />
+          Loading trailer…
+        </div>
+      )}
+      {/* Opened by a click, so the browser lets it start on its own, sound included. */}
+      <video
+        className={styles.video}
+        src={src}
+        aria-label={`${title} trailer`}
+        controls
+        autoPlay
+        playsInline
+        data-loaded={loaded ? '' : undefined}
+        onCanPlay={() => setLoaded(true)}
+      />
+    </div>
   );
 }
 

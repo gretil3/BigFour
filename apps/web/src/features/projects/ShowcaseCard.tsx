@@ -1,20 +1,27 @@
 import type { CSSProperties } from 'react';
 import { getFirstName, getMemberBySlug, type Member, type Project } from '@bigfour/shared';
-import { ArrowUpRightIcon, InfoIcon, PointerClickIcon, TerminalIcon } from '../../components/icons';
-import { getProjectImage } from '../../lib/assets';
+import {
+  ArrowUpRightIcon,
+  InfoIcon,
+  PlayIcon,
+  PointerClickIcon,
+  TerminalIcon,
+} from '../../components/icons';
+import { getProjectImage, getProjectTrailer } from '../../lib/assets';
 import styles from './ShowcaseCard.module.css';
 
 interface ShowcaseCardProps {
   project: Project;
-  /** Opens the project's live site in the "Try it live" window. */
-  onTryLive: (project: Project) => void;
+  /** Opens the project's preview window: its trailer, or its live site. */
+  onPreview: (project: Project) => void;
 }
 
 /** A full project card: screenshot, who built it, description, tech stack and links. */
-export function ShowcaseCard({ project, onTryLive }: ShowcaseCardProps) {
+export function ShowcaseCard({ project, onPreview }: ShowcaseCardProps) {
   const { title, tagline, description, disclaimer, techStack, embedUrl, liveUrl, repoUrl } =
     project;
   const image = getProjectImage(project.slug);
+  const trailer = getProjectTrailer(project.slug);
   const team = project.memberSlugs
     .map(getMemberBySlug)
     .filter((member): member is Member => member !== undefined);
@@ -29,16 +36,25 @@ export function ShowcaseCard({ project, onTryLive }: ShowcaseCardProps) {
             {title}
           </span>
         )}
-        {embedUrl && (
+        {(trailer || embedUrl) && (
           <button
             type="button"
             className={styles.tryLive}
-            aria-label={`Try ${title} live`}
-            onClick={() => onTryLive(project)}
+            aria-label={trailer ? `Watch the ${title} trailer` : `Try ${title} live`}
+            onClick={() => onPreview(project)}
           >
             <span className={styles.tryLivePill}>
-              Try it live
-              <PointerClickIcon size={14} />
+              {trailer ? (
+                <>
+                  Watch trailer
+                  <PlayIcon size={13} />
+                </>
+              ) : (
+                <>
+                  Try it live
+                  <PointerClickIcon size={14} />
+                </>
+              )}
             </span>
           </button>
         )}

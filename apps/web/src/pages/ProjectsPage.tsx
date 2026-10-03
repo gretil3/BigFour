@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { projects, team, type Project } from '@bigfour/shared';
 import { LiveDemoDialog } from '../components/LiveDemoDialog';
+import { getProjectTrailer } from '../lib/assets';
 import { Section, SectionHeader, SectionLede } from '../components/Section';
 import { ShowcaseCard } from '../features/projects/ShowcaseCard';
 import styles from './ProjectsPage.module.css';
@@ -21,7 +22,7 @@ export function ProjectsPage() {
         aside={
           <SectionLede>
             Everything we've built together, finished or still in progress. Most of them run right
-            here: open a screenshot to try one live.
+            here: open a screenshot to watch a trailer or try one live.
           </SectionLede>
         }
       />
@@ -30,7 +31,7 @@ export function ProjectsPage() {
           <li key={project.slug} className={styles.item}>
             <ShowcaseCard
               project={project}
-              onTryLive={(next) => {
+              onPreview={(next) => {
                 setDemo(next);
                 setOpen(true);
               }}
@@ -38,11 +39,12 @@ export function ProjectsPage() {
           </li>
         ))}
       </ul>
-      {demo?.embedUrl && (
+      {demo && (
         <LiveDemoDialog
           open={open}
           onClose={() => setOpen(false)}
           title={demo.title}
+          trailer={getProjectTrailer(demo.slug)}
           embedUrl={demo.embedUrl}
           liveUrl={demo.liveUrl}
         />

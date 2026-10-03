@@ -61,7 +61,7 @@
   color: color-mix(in srgb, var(--color-muted) 35%, transparent);
 }
 
-/* "Try it live": appears over the screenshot on hover or focus, always on touch screens. */
+/* "Watch trailer" or "Try it live": over the screenshot on hover or focus, always on touch screens. */
 .tryLive {
   position: absolute;
   inset: 0;

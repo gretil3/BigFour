@@ -1,7 +1,8 @@
 /*
- * Images are matched to members and projects by file name:
+ * Images and videos are matched to members and projects by file name:
  *   src/assets/members/<member-slug>.png    transparent cutout for the home hero
  *   src/assets/projects/<project-slug>.jpg  screenshot for project cards (or .png/.webp/.svg)
+ *   src/assets/videos/<project-slug>.mp4    trailer for the preview window (or .webm)
  */
 
 const memberCutouts = bySlug(
@@ -14,6 +15,15 @@ const memberCutouts = bySlug(
 const projectImages = bySlug(
   import.meta.glob<string>('../assets/projects/*.{jpg,jpeg,png,webp,avif,svg}', {
     eager: true,
+    import: 'default',
+  }),
+);
+
+// Only URLs: a video is fetched when its preview window opens, not with the page.
+const projectTrailers = bySlug(
+  import.meta.glob<string>('../assets/videos/*.{mp4,webm}', {
+    eager: true,
+    query: '?url',
     import: 'default',
   }),
 );
@@ -33,4 +43,8 @@ export function getMemberCutout(memberSlug: string): string | undefined {
 
 export function getProjectImage(projectSlug: string): string | undefined {
   return projectImages.get(projectSlug);
+}
+
+export function getProjectTrailer(projectSlug: string): string | undefined {
+  return projectTrailers.get(projectSlug);
 }

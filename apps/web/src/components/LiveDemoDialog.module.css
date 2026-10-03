@@ -1,5 +1,5 @@
 /*
- * The "Try it live" window: a project's live site in a browser-style frame, over the page.
+ * The preview window: a project's trailer, or its live site, in a browser-style frame over the page.
  * After the live-demo window on David's portfolio, in the site's own (neutral) theme.
  */
 .dialog {
@@ -89,6 +89,18 @@
   white-space: nowrap;
 }
 
+/* Marks a trailer, where a live site would show the live dot. */
+.tag {
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-heading);
+}
+
 /* A live signal: a dot with a ping, like on a status page. */
 .live {
   position: relative;
@@ -166,7 +178,8 @@
   }
 }
 
-.iframe {
+.iframe,
+.video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -176,7 +189,13 @@
   transition: opacity 500ms;
 }
 
-.iframe[data-loaded] {
+.video {
+  object-fit: contain;
+  background: #000;
+}
+
+.iframe[data-loaded],
+.video[data-loaded] {
   opacity: 1;
 }
 

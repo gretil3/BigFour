@@ -86,7 +86,7 @@ All content lives in one place, [`packages/shared/src/data`](packages/shared/src
 - `awards.ts`: the "Awards & hackathons" list.
 - `projects.ts`: every project, in the order the Projects page shows them. Each has a `status` (`completed`, `in-progress` or `planned`) and `memberSlugs` (who built it). `featured: true` puts one under "Recent projects" on the home page. The Projects page also uses:
   - `description` (a few sentences; falls back to the one-line `tagline`), `techStack` and `disclaimer` (an amber callout, e.g. for work in progress).
-  - `embedUrl`: the page opened in the "Try it live" window. The site must allow iframe embedding (no `X-Frame-Options` or `frame-ancestors` blocking it); Streamlit apps need `?embed=true`. Without it the card has no "Try it live" button.
+  - `embedUrl`: the page opened in the preview window when the project has no trailer. The site must allow iframe embedding (no `X-Frame-Options` or `frame-ancestors` blocking it); Streamlit apps need `?embed=true`. Without it the card has no "Try it live" button.
   - `liveUrl` and `repoUrl`: the "Live Demo" and "Source" buttons.
 
 ### Images
@@ -94,6 +94,7 @@ All content lives in one place, [`packages/shared/src/data`](packages/shared/src
 Web images are picked up automatically by file name. No code changes are needed.
 
 - **Member cutouts** for the home hero: `apps/web/src/assets/members/<member-slug>.png`. They should be transparent PNGs; see the [README there](apps/web/src/assets/members/README.md) for sizing. Until a member's file exists, the hero shows nothing in its place.
+- **Project trailers**: `apps/web/src/assets/videos/<project-slug>.mp4` (WebM also works). A project with a trailer plays it in its preview window instead of its live site. Use H.264 MP4 with fast start so it plays everywhere and starts streaming at once; keep each file small, since it is downloaded in full by every visitor who opens it.
 - **Project screenshots**: `apps/web/src/assets/projects/<project-slug>.jpg` (PNG, WebP, AVIF and SVG also work). Projects without one show a striped placeholder.
 
 ## Giving each member their own scenery
@@ -128,7 +129,7 @@ On phones the description is hidden, "Explore" moves under the arrows, and the i
 
 All projects are shown together in one grid, with no grouping by status (`pages/ProjectsPage.tsx`). The cards (`features/projects/ShowcaseCard.tsx`) follow the "Other Projects" cards on David's portfolio, in BigFour's neutral black theme: a screenshot, the title, who built it (a dot in each member's accent), the description, an optional disclaimer, the tech stack and the links.
 
-Hovering a screenshot (always on touch screens) shows "Try it live", which opens the project's `embedUrl` in a browser-style window over the page (`components/LiveDemoDialog.tsx`): a native modal dialog with reload, open-in-a-new-tab and close. Escape or a click outside closes it, and focus returns to the card.
+Hovering a screenshot (always on touch screens) opens the project's preview in a browser-style window over the page (`components/LiveDemoDialog.tsx`): its trailer ("Watch trailer") when `assets/videos/` has one, otherwise its live `embedUrl` ("Try it live"). It is a native modal dialog with replay or reload, open-the-live-site-in-a-new-tab and close. Escape or a click outside closes it (and stops the video), and focus returns to the card.
 
 ## Giving each member their own layout
 
