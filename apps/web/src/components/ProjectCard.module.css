@@ -1,0 +1,102 @@
+/* auto-fill (not auto-fit) so a lone card keeps its column width instead of stretching. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 18px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.25s;
+}
+
+a.card:hover {
+  transform: translateY(-4px);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgb(var(--rgb-emerald-300) / 0.14);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgb(var(--rgb-slate-400) / 0.06) 0 10px,
+      transparent 10px 20px
+    ),
+    #131c2e;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.noImage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 14px;
+  font: 500 12px var(--font-mono);
+  color: var(--color-subtle);
+}
+
+.status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--emerald-50);
+  background: rgb(var(--rgb-slate-900) / 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgb(var(--rgb-emerald-300) / 0.25);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-color);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-heading);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-muted);
+}

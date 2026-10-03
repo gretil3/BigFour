@@ -1,0 +1,85 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgb(var(--rgb-slate-900) / 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border-accent);
+  transition: background var(--hero-duration) var(--ease);
+}
+
+/* Over a light hero slide the header needs more body to stay legible. */
+body:has([data-hero-tone='light']) .header {
+  background: rgb(var(--rgb-slate-900) / 0.82);
+}
+
+.nav {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 14px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--slate-50);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.mark {
+  display: grid;
+  grid-template-columns: repeat(2, 9px);
+  gap: 3px;
+}
+
+.mark span {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  border: 1.5px solid var(--emerald-500);
+}
+
+.mark span:first-child {
+  border: 0;
+  background: var(--emerald-500);
+}
+
+.links {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgb(var(--rgb-slate-800) / 0.6);
+  border: 1px solid var(--color-border);
+}
+
+.link {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--slate-400);
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: var(--slate-100);
+}
+
+.link[aria-current='page'] {
+  font-weight: 600;
+  color: var(--emerald-50);
+  background: rgb(var(--rgb-emerald-500) / 0.18);
+  box-shadow: inset 0 0 0 1px rgb(var(--rgb-emerald-300) / 0.3);
+}

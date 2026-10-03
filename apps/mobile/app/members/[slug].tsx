@@ -1,6 +1,6 @@
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
-import { getMemberBySlug, getProjectsByMember } from '@bigfour/shared';
+import { getMemberBySlug, getProjectsByMember, getServicesLedBy } from '@bigfour/shared';
 import { MemberLayout } from '@/features/members/layouts';
 
 export default function MemberScreen() {
@@ -19,7 +19,11 @@ export default function MemberScreen() {
   return (
     <>
       <Stack.Screen options={{ title: member.name }} />
-      <MemberLayout member={member} projects={getProjectsByMember(member.slug)} />
+      <MemberLayout
+        member={member}
+        services={getServicesLedBy(member.slug)}
+        projects={getProjectsByMember(member.slug)}
+      />
     </>
   );
 }

@@ -8,7 +8,7 @@ export type { MemberLayoutProps } from './types';
  * Each member can have a profile layout inspired by their own portfolio.
  * Create a component that accepts `MemberLayoutProps`, then register it by member slug:
  *
- *   'member-one': MemberOneLayout,
+ *   david: DavidLayout,
  *
  * Members without an entry fall back to `DefaultMemberLayout`.
  */

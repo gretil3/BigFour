@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { getMemberBySlug, getProjectsByMember } from '@bigfour/shared';
+import { getMemberBySlug, getProjectsByMember, getServicesLedBy } from '@bigfour/shared';
 import { MemberLayout } from '../features/members/layouts';
 import { NotFoundPage } from './NotFoundPage';
 
@@ -11,5 +11,11 @@ export function MemberPage() {
     return <NotFoundPage />;
   }
 
-  return <MemberLayout member={member} projects={getProjectsByMember(member.slug)} />;
+  return (
+    <MemberLayout
+      member={member}
+      services={getServicesLedBy(member.slug)}
+      projects={getProjectsByMember(member.slug)}
+    />
+  );
 }

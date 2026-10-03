@@ -1,0 +1,7 @@
+.section {
+  --section-pad-bottom: clamp(72px, 10vw, 120px);
+}
+
+.header {
+  --section-header-gap: 36px;
+}

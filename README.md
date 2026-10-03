@@ -17,6 +17,8 @@ BigFour/
 
 This is an npm workspaces monorepo. `@bigfour/shared` is consumed straight from source, so there is no build step for it.
 
+The web app is styled with CSS Modules. Design tokens (colors, fonts, spacing, motion) are CSS custom properties in [`apps/web/src/styles/global.css`](apps/web/src/styles/global.css). The fonts (Plus Jakarta Sans, JetBrains Mono and Anton) are self-hosted through Fontsource.
+
 | Page     | Web route        | Mobile route      |
 | -------- | ---------------- | ----------------- |
 | Home     | `/`              | `(tabs)/index`    |
@@ -43,17 +45,26 @@ npm install
 
 ## Editing content
 
-Members and projects live in one place, [`packages/shared/src/data`](packages/shared/src/data), and both apps read from it.
+All content lives in one place, [`packages/shared/src/data`](packages/shared/src/data), and both apps read from it.
 
-- `members.ts`: replace the four placeholder members. `slug` becomes the URL (`/members/<slug>`).
-- `projects.ts`: add projects with a `status` of `completed`, `in-progress` or `planned`.
-- `team.ts`: the group name, tagline and description.
+- `team.ts`: the group name, tagline and description. The tagline is still the design's placeholder.
+- `members.ts`: each member's role, links and `palette`, the colors from their personal portfolio that theme their hero slide and profile page. `slug` becomes the URL (`/members/<slug>`).
+- `services.ts`: the "What we build" cards, each led by one member.
+- `awards.ts`: the "Awards & hackathons" list.
+- `projects.ts`: projects with a `status` of `completed`, `in-progress` or `planned`. `featured: true` puts one under "Recent projects" on the home page.
+
+### Images
+
+Web images are picked up automatically by file name. No code changes are needed.
+
+- **Member cutouts** for the home hero: `apps/web/src/assets/members/<member-slug>.png`. They should be transparent PNGs; see the [README there](apps/web/src/assets/members/README.md) for sizing. Until a member's file exists, the hero shows an empty frame.
+- **Project screenshots**: `apps/web/src/assets/projects/<project-slug>.jpg` (PNG and WebP also work). Projects without one show a striped placeholder.
 
 ## Giving each member their own layout
 
 Each member's page is rendered through a layout registry, so every member can have a profile inspired by their own portfolio. By default every member uses `DefaultMemberLayout`.
 
-1. Create a component that takes `MemberLayoutProps` (`member` and `projects`) in `features/members/layouts/`.
+1. Create a component that takes `MemberLayoutProps` (`member`, `services` and `projects`) in `features/members/layouts/`.
 2. Register it by slug in `features/members/layouts/index.ts`.
 
 This exists in both `apps/web/src` and `apps/mobile/src`, since UI is platform-specific.
@@ -61,4 +72,4 @@ This exists in both `apps/web/src` and `apps/mobile/src`, since UI is platform-s
 ## Notes
 
 - **React is pinned to `19.2.3`** in both apps. Expo requires the exact React version that its React Native release bundles, and one pinned version keeps the workspace on a single copy of React. For the same reason `react-router` is on v7: v8 needs React 19.2.7 or newer. Upgrade these together when Expo moves to a newer React.
-- The visual design (green theme, typography, per-member styling) is not implemented yet. The apps render unstyled placeholder content so the structure and routing can be built on first.
+- **Design status:** the web home page, header and footer implement the BigFour Home prototype. The Members, member profile and Projects pages reuse its components and tokens as a stand-in until their own designs arrive. The mobile app shows the shared content but has no visual design yet.

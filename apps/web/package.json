@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@bigfour/shared": "*",
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/plus-jakarta-sans": "^5.3.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-router": "^7.18.4"

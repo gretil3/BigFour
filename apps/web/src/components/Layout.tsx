@@ -1,33 +1,24 @@
-import { NavLink, Outlet } from 'react-router';
-import { team } from '@bigfour/shared';
-
-const navItems = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/members', label: 'Members', end: false },
-  { to: '/projects', label: 'Projects', end: false },
-];
-
-const currentYear = new Date().getFullYear();
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router';
+import { Footer } from './Footer';
+import { Header } from './Header';
+import styles from './Layout.module.css';
 
 export function Layout() {
+  const { pathname } = useLocation();
+
+  // BrowserRouter keeps the scroll position between pages; start each page at the top.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
-    <>
-      <header>
-        <NavLink to="/">{team.name}</NavLink>
-        <nav aria-label="Main">
-          {navItems.map(({ to, label, end }) => (
-            <NavLink key={to} to={to} end={end}>
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-      </header>
-      <main>
+    <div className={styles.page}>
+      <Header />
+      <main className={styles.main}>
         <Outlet />
       </main>
-      <footer>
-        &copy; {currentYear} {team.name}
-      </footer>
-    </>
+      <Footer />
+    </div>
   );
 }

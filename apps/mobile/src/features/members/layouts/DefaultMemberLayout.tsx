@@ -1,16 +1,20 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import type { MemberLayoutProps } from './types';
 
-export function DefaultMemberLayout({ member, projects }: MemberLayoutProps) {
+export function DefaultMemberLayout({ member, services, projects }: MemberLayoutProps) {
   return (
     <ScrollView contentContainerStyle={styles.content}>
       <Text style={styles.name}>{member.name}</Text>
       <Text>{member.role}</Text>
-      <Text>{member.tagline}</Text>
-      <Text>{member.bio}</Text>
 
-      <Text style={styles.heading}>Skills</Text>
-      <Text>{member.skills.join(' · ')}</Text>
+      {services.length > 0 && (
+        <>
+          <Text style={styles.heading}>Leads</Text>
+          {services.map((service) => (
+            <Text key={service.title}>{service.title}</Text>
+          ))}
+        </>
+      )}
 
       {projects.length > 0 && (
         <>

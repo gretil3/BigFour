@@ -2,43 +2,43 @@ import type { Project, ProjectStatus } from '../types';
 
 export const projectStatusLabels: Record<ProjectStatus, string> = {
   completed: 'Completed',
-  'in-progress': 'In progress',
+  'in-progress': 'In Progress',
   planned: 'Planned',
 };
 
 /** Display order of the status groups on the projects page. */
 export const projectStatusOrder: ProjectStatus[] = ['completed', 'in-progress', 'planned'];
 
-// TODO: replace the placeholders below with the real projects.
 export const projects: Project[] = [
   {
-    slug: 'bigfour-portfolio',
-    title: 'BigFour Portfolio',
-    summary: 'This group portfolio, available on the web and as a mobile app.',
-    status: 'in-progress',
-    platforms: ['web', 'mobile'],
-    stack: ['TypeScript', 'React', 'React Native'],
-    memberSlugs: ['member-one', 'member-two', 'member-three', 'member-four'],
-  },
-  {
-    slug: 'completed-project',
-    title: 'Completed Project',
-    summary: 'Placeholder for a finished project.',
+    slug: 'civiceye',
+    title: 'CivicEye',
+    tagline: 'Civic issue reporting with community-funded fixes',
     status: 'completed',
-    platforms: ['web'],
-    stack: ['TypeScript', 'React'],
-    memberSlugs: ['member-one'],
+    featured: true,
+    memberSlugs: [],
   },
   {
-    slug: 'planned-project',
-    title: 'Planned Project',
-    summary: 'Placeholder for a project that is yet to be developed.',
-    status: 'planned',
-    platforms: ['web', 'mobile'],
-    stack: ['TypeScript'],
+    slug: 'kratt',
+    title: 'Kratt',
+    tagline: 'Scoring bot activity in YouTube comments',
+    status: 'completed',
+    featured: true,
+    memberSlugs: ['david', 'kevin', 'gerald', 'fiko'],
+  },
+  {
+    slug: 'owi',
+    title: 'OWI — Online Web Investigator',
+    tagline: 'Flagging coordinated buzzer campaigns',
+    status: 'in-progress',
+    featured: true,
     memberSlugs: [],
   },
 ];
+
+export function getFeaturedProjects(): Project[] {
+  return projects.filter((project) => project.featured);
+}
 
 export function getProjectsByStatus(status: ProjectStatus): Project[] {
   return projects.filter((project) => project.status === status);

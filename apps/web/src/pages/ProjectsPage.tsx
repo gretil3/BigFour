@@ -1,28 +1,33 @@
-import { getProjectsByStatus, projectStatusLabels, projectStatusOrder } from '@bigfour/shared';
+import {
+  getProjectsByStatus,
+  projectStatusLabels,
+  projectStatusOrder,
+  team,
+} from '@bigfour/shared';
+import { ProjectGrid } from '../components/ProjectCard';
+import { Section, SectionHeader } from '../components/Section';
+import styles from './ProjectsPage.module.css';
 
 export function ProjectsPage() {
   return (
-    <section>
-      <h1>Projects</h1>
+    <Section labelledBy="projects-title">
+      <title>{`Projects · ${team.name}`}</title>
+      <SectionHeader as="h1" eyebrow="Our work" title="Projects" titleId="projects-title" />
       {projectStatusOrder.map((status) => {
         const projects = getProjectsByStatus(status);
         if (projects.length === 0) return null;
 
         return (
-          <section key={status}>
-            <h2>{projectStatusLabels[status]}</h2>
-            <ul>
-              {projects.map((project) => (
-                <li key={project.slug}>
-                  <strong>{project.title}</strong>
-                  <div>{project.summary}</div>
-                  <div>{project.stack.join(' · ')}</div>
-                </li>
-              ))}
-            </ul>
+          <section key={status} aria-labelledby={`projects-${status}`} className={styles.group}>
+            <h2 id={`projects-${status}`} className={styles.groupTitle} data-status={status}>
+              <span className={styles.dot} aria-hidden="true" />
+              {projectStatusLabels[status]}
+              <span className={styles.count}>{projects.length}</span>
+            </h2>
+            <ProjectGrid projects={projects} />
           </section>
         );
       })}
-    </section>
+    </Section>
   );
 }

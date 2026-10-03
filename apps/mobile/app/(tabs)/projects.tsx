@@ -14,8 +14,7 @@ export default function ProjectsScreen() {
             {projects.map((project) => (
               <View key={project.slug}>
                 <Text style={styles.title}>{project.title}</Text>
-                <Text>{project.summary}</Text>
-                <Text>{project.stack.join(' · ')}</Text>
+                <Text>{project.tagline}</Text>
               </View>
             ))}
           </View>

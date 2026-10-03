@@ -1,15 +1,17 @@
-import { Link } from 'react-router';
 import { team } from '@bigfour/shared';
+import { FeaturedProjectsSection } from '../features/home/FeaturedProjectsSection';
+import { HomeHero } from '../features/home/HomeHero';
+import { RecognitionSection } from '../features/home/RecognitionSection';
+import { ServicesSection } from '../features/home/ServicesSection';
 
 export function HomePage() {
   return (
-    <section>
-      <h1>{team.name}</h1>
-      <p>{team.tagline}</p>
-      <p>{team.description}</p>
-      <p>
-        <Link to="/members">Meet the members</Link> · <Link to="/projects">See our projects</Link>
-      </p>
-    </section>
+    <>
+      <title>{team.name}</title>
+      <HomeHero />
+      <ServicesSection />
+      <RecognitionSection />
+      <FeaturedProjectsSection />
+    </>
   );
 }
