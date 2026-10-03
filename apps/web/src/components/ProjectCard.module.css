@@ -9,29 +9,22 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-radius: 18px;
   color: inherit;
   text-decoration: none;
-  transition: transform 0.25s;
-}
-
-a.card:hover {
-  transform: translateY(-4px);
 }
 
 .media {
   position: relative;
   aspect-ratio: 16 / 10;
-  border-radius: 16px;
+  border-radius: var(--radius-media);
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--color-accent) 14%, transparent);
-  background:
-    repeating-linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--color-muted) 6%, transparent) 0 10px,
-      transparent 10px 20px
-    ),
-    var(--color-surface);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  transition: border-color 0.25s;
+}
+
+.card:hover .media {
+  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
 
 .image {
@@ -41,17 +34,27 @@ a.card:hover {
   height: 100%;
   object-fit: cover;
   object-position: top;
+  transition: transform 0.5s var(--ease);
 }
 
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+/* No screenshot yet: the project's name, set quietly in the display face. */
 .noImage {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 14px;
-  font: 500 12px var(--font-mono);
-  color: var(--color-subtle);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  font-family: var(--font-display);
+  font-size: calc(40px * var(--display-scale));
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+  color: color-mix(in srgb, var(--color-muted) 35%, transparent);
 }
 
 .status {
@@ -62,14 +65,14 @@ a.card:hover {
   align-items: center;
   gap: 6px;
   padding: 5px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-size: 12px;
   font-weight: 600;
   color: var(--color-heading);
   background: color-mix(in srgb, var(--color-bg) 78%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+  border: 1px solid var(--color-border);
 }
 
 .dot {
@@ -89,8 +92,11 @@ a.card:hover {
 .title {
   margin: 0;
   font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight-sm);
+  font-stretch: var(--heading-stretch);
+  letter-spacing: var(--heading-tracking);
+  text-transform: var(--heading-transform);
   color: var(--color-heading);
 }
 

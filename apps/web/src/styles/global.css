@@ -68,28 +68,21 @@
 :root {
   color-scheme: dark;
 
-  /* Palette (the slate + emerald scales used by the design) */
-  --slate-50: #f8fafc;
-  --slate-200: #e2e8f0;
-  --slate-400: #94a3b8;
-  --slate-800: #1e293b;
-  --slate-900: #0f172a;
-  --emerald-200: #a7f3d0;
-  --emerald-300: #6ee7b7;
-  --emerald-500: #10b981;
+  /* Status colors */
+  --green-500: #22c55e;
   --amber-400: #fbbf24;
 
-  /* Theme: BigFour's own slate + emerald, shown wherever no member is featured */
-  --color-bg: var(--slate-900);
-  --color-hero: var(--slate-900);
-  --color-surface: color-mix(in srgb, var(--slate-800) 45%, var(--slate-900));
-  --color-heading: var(--slate-50);
-  --color-text: var(--slate-200);
-  --color-muted: var(--slate-400);
-  --color-border: rgb(148 163 184 / 0.12);
-  --color-accent: var(--emerald-300);
-  --color-accent-soft: var(--emerald-200);
-  --color-ghost: var(--slate-50);
+  /* Theme: BigFour's own neutral black, shown wherever no member is featured */
+  --color-bg: #0a0a0a;
+  --color-hero: #0a0a0a;
+  --color-surface: #121212;
+  --color-heading: #fafafa;
+  --color-text: #ededed;
+  --color-muted: #a1a1a1;
+  --color-border: rgb(255 255 255 / 0.09);
+  --color-accent: #fafafa;
+  --color-accent-soft: #d4d4d4;
+  --color-ghost: #fafafa;
 
   /* Roles derived from the theme, so a member palette only has to supply the colors above */
   --color-subtle: color-mix(in srgb, var(--color-muted) 65%, var(--color-bg));
@@ -100,10 +93,64 @@
   --color-link: var(--color-accent);
   --color-link-hover: var(--color-accent-soft);
 
-  /* Type */
+  /*
+   * Type, shape and labels. A featured member's style replaces them on <html>
+   * (see lib/theme.ts), so every heading, card and label follows the member's own site.
+   */
   --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Section titles, and card titles one step down. */
+  --font-heading: var(--font-sans);
+  --heading-weight: 800;
+  --heading-weight-sm: 700;
+  --heading-tracking: -0.03em;
+  --heading-stretch: 100%;
+  --heading-transform: none;
+  --heading-leading: 1.1;
+  --heading-scale: 1;
+  /* Appended to section titles, e.g. Gerald's "PROJECTS." */
+  --heading-after: '';
+
+  /* The oversized wordmark, member names and the "Explore" link. */
   --font-display: 'Anton', Impact, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.02em;
+  --display-transform: uppercase;
+  --display-stretch: 100%;
+  /* Sizes are tuned for Anton, a narrow face; wider display faces scale down to fit. */
+  --display-scale: 1;
+  /* Appended to display text in the accent color, like the period that ends every member's headline. */
+  --display-after: '';
+
+  /* Small labels over section titles, e.g. `// Services` or `( SERVICES )`. */
+  --label-font: var(--font-mono);
+  --label-size: 12px;
+  --label-weight: 500;
+  --label-transform: uppercase;
+  --label-tracking: 0.08em;
+  --label-color: var(--color-muted);
+  --label-before: '';
+  --label-after: '';
+
+  /* Header nav links. */
+  --nav-size: 14px;
+  --nav-weight: 500;
+  --nav-transform: none;
+  --nav-tracking: normal;
+  --nav-before: '';
+  --nav-after: '';
+
+  /* Inline text links such as "All projects →". */
+  --action-font: var(--font-sans);
+  --action-size: 15px;
+  --action-weight: 600;
+  --action-transform: none;
+  --action-tracking: normal;
+
+  --radius-card: 16px;
+  --radius-media: 12px;
+  --radius-pill: 999px;
 
   /* Layout */
   --content-max: 1200px;
@@ -167,7 +214,7 @@ img {
 
 /* Status colors, read by any element carrying data-status. */
 [data-status='completed'] {
-  --status-color: var(--emerald-500);
+  --status-color: var(--green-500);
 }
 
 [data-status='in-progress'] {

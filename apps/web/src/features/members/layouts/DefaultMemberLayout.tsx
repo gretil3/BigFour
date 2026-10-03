@@ -1,4 +1,5 @@
 import { getFirstName, socialPlatformLabels, team } from '@bigfour/shared';
+import { Backdrop } from '../../../components/Backdrop';
 import { ProjectGrid } from '../../../components/ProjectCard';
 import { Section, SectionHeader } from '../../../components/Section';
 import { ServiceGrid } from '../../../components/ServiceCard';
@@ -12,6 +13,7 @@ export function DefaultMemberLayout({ member, services, projects }: MemberLayout
     <article>
       <title>{`${member.name} · ${team.name}`}</title>
       <header className={styles.band}>
+        <Backdrop name={member.style.backdrop} />
         <span className={styles.ghost} aria-hidden="true">
           {firstName}
         </span>

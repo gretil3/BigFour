@@ -1,26 +1,30 @@
 .group + .group {
-  margin-top: clamp(40px, 6vw, 64px);
+  margin-top: clamp(48px, 7vw, 80px);
 }
 
+/* A label-sized rule across the page: status, then the count at the far end. */
 .groupTitle {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 0 0 20px;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  margin: 0 0 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
+  font: var(--label-weight) var(--label-size) var(--label-font);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
   color: var(--color-heading);
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--status-color);
 }
 
 .count {
-  font: 500 12px var(--font-mono);
+  margin-left: auto;
+  font-family: var(--font-mono);
   color: var(--color-subtle);
 }

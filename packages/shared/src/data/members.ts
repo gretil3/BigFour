@@ -30,6 +30,8 @@ export const members: Member[] = [
       accentSoft: '#D9F99D',
       ghost: '#D9F99D',
     },
+    // Fraunces headings over Inter, `// code` labels, rounded cards, pines and fireflies
+    style: { typeface: 'serif', shape: 'round', label: 'slashes', backdrop: 'forest' },
   },
   {
     slug: 'kevin',
@@ -49,6 +51,8 @@ export const members: Member[] = [
       accentSoft: '#C1E1D3',
       ghost: '#EEEAE0',
     },
+    // Narrow uppercase Instrument Sans, wide-tracked caps, crisp corners, contour lines
+    style: { typeface: 'condensed', shape: 'crisp', label: 'spaced', backdrop: 'waves' },
   },
   {
     slug: 'gerald',
@@ -71,6 +75,8 @@ export const members: Member[] = [
       accentSoft: '#D2FB80',
       ghost: '#BBFF36',
     },
+    // Heavy uppercase Inter, ( bracketed ) labels, square corners, flat black
+    style: { typeface: 'grotesk', shape: 'sharp', label: 'brackets', backdrop: 'none' },
   },
   {
     slug: 'fiko',
@@ -93,6 +99,8 @@ export const members: Member[] = [
       accentSoft: '#52AAFF',
       ghost: '#F5F5F7',
     },
+    // System UI font, blue mono labels, soft corners, flat black
+    style: { typeface: 'system', shape: 'soft', label: 'mono', backdrop: 'none' },
   },
 ];
 

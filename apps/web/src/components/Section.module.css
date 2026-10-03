@@ -21,19 +21,35 @@
 
 .eyebrow {
   margin: 0;
-  font: 500 12px var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-accent);
+  font: var(--label-weight) var(--label-size) var(--label-font);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  color: var(--label-color);
+}
+
+.eyebrow::before {
+  content: var(--label-before);
+}
+
+.eyebrow::after {
+  content: var(--label-after);
 }
 
 .title {
   margin: 0;
-  font-size: clamp(30px, 4vw, 46px);
-  line-height: 1.1;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: calc(clamp(30px, 4vw, 46px) * var(--heading-scale));
+  line-height: var(--heading-leading);
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  font-stretch: var(--heading-stretch);
+  letter-spacing: var(--heading-tracking);
+  text-transform: var(--heading-transform);
   color: var(--color-heading);
+}
+
+.title::after {
+  content: var(--heading-after);
+  color: var(--color-accent);
 }
 
 .lede {

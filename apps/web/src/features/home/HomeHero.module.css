@@ -39,11 +39,12 @@
   pointer-events: none;
   user-select: none;
   font-family: var(--font-display);
-  font-size: clamp(90px, 28vw, 380px);
-  font-weight: 400;
+  font-size: calc(clamp(90px, 28vw, 380px) * var(--display-scale));
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
   line-height: 1;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
   white-space: nowrap;
   color: var(--color-ghost);
 }
@@ -63,6 +64,12 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-heading);
+}
+
+/* Every member ends their headline with a period in their accent color; the wordmark does too. */
+.ghost::after {
+  content: var(--display-after);
+  color: var(--color-accent);
 }
 
 .counter {
@@ -145,11 +152,13 @@
 
 .title {
   margin: 0 0 12px;
+  font-family: var(--font-heading);
   font-size: clamp(16px, 1.8vw, 22px);
   line-height: 1.25;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-weight: var(--heading-weight-sm);
+  font-stretch: var(--heading-stretch);
+  letter-spacing: -0.01em;
+  text-transform: var(--heading-transform);
   color: var(--color-heading);
 }
 
@@ -192,9 +201,10 @@
 .exploreInline {
   align-items: center;
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: var(--display-transform);
   text-decoration: none;
   color: var(--color-heading);
 }
@@ -206,8 +216,8 @@
   z-index: 60;
   display: flex;
   gap: 12px;
-  font-size: clamp(20px, 4vw, 56px);
-  letter-spacing: -0.02em;
+  font-size: calc(clamp(20px, 4vw, 56px) * var(--display-scale));
+  letter-spacing: var(--display-tracking);
   opacity: 0.95;
   transition: opacity 200ms;
 }
@@ -222,8 +232,8 @@
   align-self: flex-start;
   gap: 8px;
   margin-top: 18px;
-  font-size: 24px;
-  letter-spacing: -0.01em;
+  font-size: calc(24px * var(--display-scale));
+  letter-spacing: var(--display-tracking);
 }
 
 @media (max-width: 639px) {

@@ -8,7 +8,7 @@ export function MemberPage() {
   const { slug = '' } = useParams();
   const member = getMemberBySlug(slug);
   // Every layout gets the member's palette across the whole site.
-  useMemberTheme(member?.palette);
+  useMemberTheme(member);
 
   if (!member) {
     return <NotFoundPage />;

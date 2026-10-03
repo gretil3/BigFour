@@ -1,69 +1,133 @@
-.grid {
+.list {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
-  gap: 16px;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  height: 100%;
-  padding: 12px 12px 24px;
-  border-radius: 20px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+.row {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 40px 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(16px, 3vw, 32px);
+  padding: 24px clamp(8px, 2vw, 20px);
+  border-top: 1px solid var(--color-border);
   color: inherit;
   text-decoration: none;
-  transition:
-    border-color 0.25s,
-    transform 0.25s,
-    background 0.25s;
 }
 
-.card:hover {
-  border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
-  transform: translateY(-3px);
-  background: var(--color-surface-hover);
+/* On hover the row warms up in the member's own hero color: a preview of their theme. */
+.row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, var(--member-hero), transparent 75%);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
 }
 
-/* A preview of the member's portfolio palette. */
-.swatch {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 4 / 3;
-  margin-bottom: 14px;
-  border-radius: 12px;
-  font-family: var(--font-display);
-  font-size: 96px;
-  line-height: 1;
-}
-
-.number,
-.name,
-.role {
-  padding: 0 12px;
+.row:hover::before,
+.row:focus-visible::before {
+  opacity: 1;
 }
 
 .number {
   font: 500 12px var(--font-mono);
-  color: var(--color-accent);
+  color: var(--color-subtle);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  border: 1px solid var(--color-border);
+  background: var(--member-hero);
+  color: var(--member-ghost);
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.cutout {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
 }
 
 .name {
   margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: var(--heading-weight-sm);
+  font-stretch: var(--heading-stretch);
+  letter-spacing: var(--heading-tracking);
+  line-height: 1.1;
   color: var(--color-heading);
+  transition: color 0.25s;
+}
+
+.row:hover .name {
+  color: var(--member-accent);
 }
 
 .role {
-  margin: 0;
   font-size: 14px;
-  line-height: 1.5;
   color: var(--color-muted);
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  color: var(--color-heading);
+  transition:
+    transform 0.25s var(--ease),
+    background-color 0.25s,
+    color 0.25s,
+    border-color 0.25s;
+}
+
+.row:hover .arrow {
+  transform: translateX(4px);
+  border-color: transparent;
+  background: var(--member-accent);
+  color: var(--member-hero);
+}
+
+@media (max-width: 639px) {
+  .row {
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+  }
+
+  .number {
+    display: none;
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+    font-size: 24px;
+  }
+
+  .arrow {
+    width: 36px;
+    height: 36px;
+  }
 }

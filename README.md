@@ -17,7 +17,7 @@ BigFour/
 
 This is an npm workspaces monorepo. `@bigfour/shared` is consumed straight from source, so there is no build step for it.
 
-The web app is styled with CSS Modules. Design tokens (colors, fonts, spacing, motion) are CSS custom properties in [`apps/web/src/styles/global.css`](apps/web/src/styles/global.css). The fonts (Plus Jakarta Sans, JetBrains Mono and Anton) are self-hosted through Fontsource.
+The web app is styled with CSS Modules. Design tokens (colors, fonts, spacing, motion) are CSS custom properties in [`apps/web/src/styles/global.css`](apps/web/src/styles/global.css). The fonts (Plus Jakarta Sans, JetBrains Mono and Anton for BigFour's own theme; Fraunces, Inter and Instrument Sans for the member themes) are self-hosted through Fontsource.
 
 | Page     | Web route        | Mobile route      |
 | -------- | ---------------- | ----------------- |
@@ -78,7 +78,10 @@ Scan the QR code with Expo Go on your phone, or press `a` (Android emulator), `i
 All content lives in one place, [`packages/shared/src/data`](packages/shared/src/data), and both apps read from it.
 
 - `team.ts`: the group name, tagline and description. The tagline is still the design's placeholder.
-- `members.ts`: each member's role, links and `palette`, the colors from their personal portfolio. While a member is featured (their home hero slide, their profile page) the palette themes the whole site, header to footer. `slug` becomes the URL (`/members/<slug>`).
+- `members.ts`: each member's role, links, `palette` and `style`, lifted from their personal portfolio. While a member is featured (their home hero slide, their profile page) these re-theme the whole site, header to footer. `slug` becomes the URL (`/members/<slug>`).
+  - `palette`: the colors (page, hero, cards, text, borders, accents).
+  - `style`: the character. `typeface` (`serif`, `condensed`, `grotesk`, `system`), `shape` of corners (`sharp`, `crisp`, `soft`, `round`), `label` and nav dressing (`slashes` for `// Services`, `brackets` for `( SERVICES )`, `spaced` for wide-tracked caps, `mono` for code-style caps) and the hero `backdrop` (`forest`, `waves`, `none`). The web app maps these to fonts and CSS variables in `apps/web/src/lib/theme.ts`.
+  - Pages with no featured member (Members, Projects) use BigFour's own neutral black theme, defined in `apps/web/src/styles/global.css`.
 - `services.ts`: the "What we build" cards, each led by one member.
 - `awards.ts`: the "Awards & hackathons" list.
 - `projects.ts`: projects with a `status` of `completed`, `in-progress` or `planned`. `featured: true` puts one under "Recent projects" on the home page.

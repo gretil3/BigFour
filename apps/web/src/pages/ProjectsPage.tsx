@@ -6,6 +6,7 @@ import {
 } from '@bigfour/shared';
 import { ProjectGrid } from '../components/ProjectCard';
 import { Section, SectionHeader } from '../components/Section';
+import { formatIndex } from '../lib/format';
 import styles from './ProjectsPage.module.css';
 
 export function ProjectsPage() {
@@ -22,9 +23,10 @@ export function ProjectsPage() {
             <h2 id={`projects-${status}`} className={styles.groupTitle} data-status={status}>
               <span className={styles.dot} aria-hidden="true" />
               {projectStatusLabels[status]}
-              <span className={styles.count}>{projects.length}</span>
+              <span className={styles.count}>{formatIndex(projects.length)}</span>
             </h2>
-            <ProjectGrid projects={projects} />
+            {/* Grouped by status already, so the cards skip their status badge. */}
+            <ProjectGrid projects={projects} showStatus={false} />
           </section>
         );
       })}

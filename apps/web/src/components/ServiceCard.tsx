@@ -18,13 +18,6 @@ export function ServiceCard({ service }: { service: Service }) {
       </div>
       <h3 className={styles.title}>{service.title}</h3>
       <p className={styles.description}>{service.description}</p>
-      <ul className={styles.tools}>
-        {service.tools.map((tool) => (
-          <li key={tool} className={styles.tool}>
-            {tool}
-          </li>
-        ))}
-      </ul>
     </article>
   );
 }

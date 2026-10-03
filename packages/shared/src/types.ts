@@ -38,6 +38,28 @@ export interface MemberPalette {
   ghost: string;
 }
 
+/**
+ * The character of a member's personal portfolio beyond its colors. Together with
+ * `palette` it restyles the whole site while the member is featured. Each value
+ * names a look; the web app decides how to draw it.
+ */
+export interface MemberStyle {
+  /**
+   * serif: editorial serif headings. condensed: narrow uppercase sans. grotesk: heavy,
+   * tightly set uppercase sans. system: the platform's own UI font.
+   */
+  typeface: 'serif' | 'condensed' | 'grotesk' | 'system';
+  /** Corners of cards, images and pills, from square to generous. */
+  shape: 'sharp' | 'crisp' | 'soft' | 'round';
+  /**
+   * Small labels and nav links: slashes (`// Services`), brackets (`( SERVICES )`),
+   * spaced (wide-tracked caps) or mono (code-style caps).
+   */
+  label: 'slashes' | 'brackets' | 'spaced' | 'mono';
+  /** Decorative scenery behind the hero. */
+  backdrop: 'forest' | 'waves' | 'none';
+}
+
 export interface Member {
   /** URL-safe unique id. Used in routes: /members/:slug */
   slug: string;
@@ -45,6 +67,7 @@ export interface Member {
   role: string;
   socials: SocialLink[];
   palette: MemberPalette;
+  style: MemberStyle;
 }
 
 /** A discipline the team offers, led by one member. */
@@ -53,7 +76,6 @@ export interface Service {
   lead: string;
   title: string;
   description: string;
-  tools: string[];
 }
 
 export interface Award {

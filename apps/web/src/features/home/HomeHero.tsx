@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { members, team } from '@bigfour/shared';
+import { Backdrop } from '../../components/Backdrop';
 import { ArrowLeftIcon, ArrowRightIcon } from '../../components/icons';
 import { formatIndex } from '../../lib/format';
 import { useMemberTheme } from '../../lib/theme';
@@ -29,7 +30,7 @@ export function HomeHero() {
   const lockedUntil = useRef(0);
 
   const member = members[active];
-  useMemberTheme(member?.palette);
+  useMemberTheme(member);
   if (!member) return null;
 
   function step(direction: 1 | -1) {
@@ -41,6 +42,7 @@ export function HomeHero() {
 
   return (
     <section className={styles.hero} aria-labelledby="hero-title" aria-roledescription="carousel">
+      <Backdrop name={member.style.backdrop} />
       <div className={styles.grain} aria-hidden="true" />
       <div className={styles.ghost} aria-hidden="true">
         {team.name}

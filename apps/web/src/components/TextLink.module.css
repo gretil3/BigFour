@@ -2,8 +2,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-weight: 600;
-  font-size: 15px;
+  font: var(--action-weight) var(--action-size) var(--action-font);
+  letter-spacing: var(--action-tracking);
+  text-transform: var(--action-transform);
   text-decoration: none;
   color: var(--color-link);
 }
