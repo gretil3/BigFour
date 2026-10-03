@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+web-build/
+*.tsbuildinfo
+
+# Expo / React Native
+.expo/
+expo-env.d.ts
+/apps/mobile/ios/
+/apps/mobile/android/
+.metro-health-check*
+
+# Environment files (commit a .env.example instead)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.sw?
+
+# Credentials and signing keys
+*.pem
+*.key
+*.jks
+*.p8
+*.p12
+*.mobileprovision

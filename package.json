@@ -1,0 +1,27 @@
+{
+  "name": "bigfour",
+  "version": "0.0.0",
+  "private": true,
+  "description": "BigFour group portfolio: web (React) and mobile (React Native) apps sharing one TypeScript codebase.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev:web": "npm run dev -w @bigfour/web",
+    "dev:mobile": "npm run start -w @bigfour/mobile",
+    "build:web": "npm run build -w @bigfour/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "oxlint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "oxlint": "^1.81.0",
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.3"
+  }
+}
