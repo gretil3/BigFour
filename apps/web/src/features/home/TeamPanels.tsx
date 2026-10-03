@@ -2,6 +2,7 @@ import { getFirstName, members } from '@bigfour/shared';
 import { Backdrop } from '../../components/Backdrop';
 import { formatIndex } from '../../lib/format';
 import { themeVars } from '../../lib/theme';
+import { LaplandScene } from './LaplandScene';
 import styles from './TeamPanels.module.css';
 
 /**
@@ -13,8 +14,13 @@ export function TeamPanels() {
   return (
     <div className={styles.panels} aria-hidden="true">
       {members.map((member, index) => (
-        <div key={member.slug} className={styles.panel} style={themeVars(member)}>
-          <Backdrop name={member.style.backdrop} />
+        <div
+          key={member.slug}
+          className={styles.panel}
+          data-member={member.slug}
+          style={themeVars(member)}
+        >
+          {member.slug === 'gerald' ? <LaplandScene /> : <Backdrop name={member.style.backdrop} />}
           <div className={styles.caption}>
             <p className={styles.label}>
               <span className={styles.number}>{formatIndex(index + 1)}</span>

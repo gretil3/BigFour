@@ -50,6 +50,15 @@
   color: var(--color-accent);
 }
 
+/* Only Gerald's team panel has the winter treatment; his own slide keeps its theme. */
+.panel[data-member='gerald'] .caption {
+  text-shadow: 0 1px 8px #081c2d;
+}
+
+.panel[data-member='gerald'] .number {
+  color: #b7dfef;
+}
+
 .role {
   margin: 0;
   font:
