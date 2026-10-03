@@ -6,7 +6,6 @@ import { Backdrop } from '../../components/Backdrop';
 import { ArrowLeftIcon, ArrowRightIcon } from '../../components/icons';
 import { getMemberCutout } from '../../lib/assets';
 import { cx } from '../../lib/cx';
-import { formatIndex } from '../../lib/format';
 import { useMemberTheme } from '../../lib/theme';
 import { useInkAlign } from '../../lib/useInkAlign';
 import { MemberCutout } from './MemberCutout';
@@ -94,9 +93,7 @@ export function HomeHero() {
             <div className={styles.grain} aria-hidden="true" />
 
             <p className={styles.status} aria-hidden="true">
-              <span className={styles.counter}>
-                {formatIndex(active + 1)} / {formatIndex(SLIDE_COUNT)}
-              </span>
+              <span className={styles.counter}>{member.name.charAt(0)}</span>
               <span>{member.name}</span>
               <span className={styles.role}>{member.role}</span>
             </p>
@@ -163,7 +160,7 @@ export function HomeHero() {
                 onClick={() => change(() => index)}
               >
                 <span className={styles.indexLine} aria-hidden="true" />
-                <span className={styles.indexNumber}>{formatIndex(index + 1)}</span>
+                <span className={styles.indexInitial}>{name.charAt(0)}</span>
                 <span className={styles.indexName}>{name}</span>
               </button>
             ))}

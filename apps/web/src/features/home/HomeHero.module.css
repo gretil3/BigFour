@@ -5,7 +5,7 @@
  *
  *   top-left      status line (member slides) or panel labels (BigFour's slide)
  *   bottom-left   wordmark, tagline, description and arrows, one left-aligned stack
- *   bottom-right  slide index level with the tagline; "Explore" level with the arrows
+ *   bottom-right  slide index, lifted clear of "Explore"; "Explore" level with the arrows
  */
 .hero {
   --edge: var(--gutter);
@@ -149,7 +149,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
-    'wordmark wordmark'
+    'wordmark index'
     'title index'
     'description index'
     'controls explore';
@@ -168,7 +168,7 @@
  */
 .wordmark {
   grid-area: wordmark;
-  margin: 0 0 20px;
+  margin: 0 0 32px;
   pointer-events: none;
   user-select: none;
   font-family: var(--font-display);
@@ -283,12 +283,14 @@
 }
 
 /*
- * Slide index: a typographic list in the right column, its top level with the tagline,
- * the active slide marked by a long rule.
+ * Slide index: a typographic list in the right column, ending a clear step above "Explore",
+ * the active slide marked by a long rule. Each entry is an initial and a name, never a number:
+ * the four are equals.
  */
 .index {
   grid-area: index;
-  align-self: start;
+  align-self: end;
+  margin-bottom: 36px;
   justify-self: end;
   display: flex;
   flex-direction: column;
@@ -311,11 +313,6 @@
   text-transform: var(--label-transform);
   opacity: 0.5;
   transition: opacity 200ms;
-}
-
-.indexItem:first-child {
-  /* Lines the first entry's text up with the tagline's first line. */
-  margin-top: -2px;
 }
 
 .indexItem:hover,
@@ -342,8 +339,10 @@
   width: 28px;
 }
 
-.indexNumber {
+.indexInitial {
+  min-width: 1ch;
   font-family: var(--font-mono);
+  text-align: center;
 }
 
 @media (max-width: 639px) {
@@ -379,7 +378,7 @@
     padding: 0 20px;
   }
 
-  /* On phones the index keeps just the numbers and floats above the text block, at its right. */
+  /* On phones the index keeps just the initials and floats above the text block, at its right. */
   .index {
     position: absolute;
     right: 0;

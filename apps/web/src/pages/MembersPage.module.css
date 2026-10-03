@@ -9,7 +9,7 @@
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: 40px 64px minmax(0, 1fr) auto;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(16px, 3vw, 32px);
   padding: 24px clamp(8px, 2vw, 20px);
@@ -32,11 +32,6 @@
 .row:hover::before,
 .row:focus-visible::before {
   opacity: 1;
-}
-
-.number {
-  font: 500 12px var(--font-mono);
-  color: var(--color-subtle);
 }
 
 .avatar {
@@ -114,10 +109,6 @@
 @media (max-width: 639px) {
   .row {
     grid-template-columns: 52px minmax(0, 1fr) auto;
-  }
-
-  .number {
-    display: none;
   }
 
   .avatar {

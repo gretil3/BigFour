@@ -206,7 +206,9 @@ const derivedDefaults: Vars = {
  * corners and colors, follows the member while the rest of the page keeps its own theme.
  */
 export function themeVars(member: Member): CSSProperties {
-  return { ...derivedDefaults, ...themeOf(member) } as CSSProperties;
+  // React styles take standard properties in camelCase; custom properties stay as they are.
+  const { 'color-scheme': colorScheme, ...vars } = themeOf(member);
+  return { ...derivedDefaults, ...vars, colorScheme } as CSSProperties;
 }
 
 function setTheme(root: HTMLElement, member: Member | undefined) {

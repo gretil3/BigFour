@@ -1,7 +1,7 @@
 /*
  * Images are matched to members and projects by file name:
  *   src/assets/members/<member-slug>.png    transparent cutout for the home hero
- *   src/assets/projects/<project-slug>.jpg  screenshot for project cards
+ *   src/assets/projects/<project-slug>.jpg  screenshot for project cards (or .png/.webp/.svg)
  */
 
 const memberCutouts = bySlug(
@@ -12,7 +12,7 @@ const memberCutouts = bySlug(
 );
 
 const projectImages = bySlug(
-  import.meta.glob<string>('../assets/projects/*.{jpg,jpeg,png,webp,avif}', {
+  import.meta.glob<string>('../assets/projects/*.{jpg,jpeg,png,webp,avif,svg}', {
     eager: true,
     import: 'default',
   }),

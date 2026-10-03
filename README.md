@@ -84,14 +84,17 @@ All content lives in one place, [`packages/shared/src/data`](packages/shared/src
   - Pages with no featured member (Members, Projects) use BigFour's own neutral black theme, defined in `apps/web/src/styles/global.css`.
 - `services.ts`: the "What we build" cards, each led by one member.
 - `awards.ts`: the "Awards & hackathons" list.
-- `projects.ts`: projects with a `status` of `completed`, `in-progress` or `planned`. `featured: true` puts one under "Recent projects" on the home page.
+- `projects.ts`: every project, in the order the Projects page shows them. Each has a `status` (`completed`, `in-progress` or `planned`) and `memberSlugs` (who built it). `featured: true` puts one under "Recent projects" on the home page. The Projects page also uses:
+  - `description` (a few sentences; falls back to the one-line `tagline`), `techStack` and `disclaimer` (an amber callout, e.g. for work in progress).
+  - `embedUrl`: the page opened in the "Try it live" window. The site must allow iframe embedding (no `X-Frame-Options` or `frame-ancestors` blocking it); Streamlit apps need `?embed=true`. Without it the card has no "Try it live" button.
+  - `liveUrl` and `repoUrl`: the "Live Demo" and "Source" buttons.
 
 ### Images
 
 Web images are picked up automatically by file name. No code changes are needed.
 
 - **Member cutouts** for the home hero: `apps/web/src/assets/members/<member-slug>.png`. They should be transparent PNGs; see the [README there](apps/web/src/assets/members/README.md) for sizing. Until a member's file exists, the hero shows nothing in its place.
-- **Project screenshots**: `apps/web/src/assets/projects/<project-slug>.jpg` (PNG and WebP also work). Projects without one show a striped placeholder.
+- **Project screenshots**: `apps/web/src/assets/projects/<project-slug>.jpg` (PNG, WebP, AVIF and SVG also work). Projects without one show a striped placeholder.
 
 ## Giving each member their own scenery
 
@@ -105,8 +108,9 @@ To add one, add a name to `MemberStyle['backdrop']` in `packages/shared/src/type
 
 ## BigFour's own slide
 
-The home carousel has five slides: BigFour first, then one per member. BigFour's slide (`features/home/TeamPanels.tsx`) puts the four members' scenery side by side as four equal panels across the full width, with no lines between them. Each panel has that member's background, scenery and accent (`themeVars(member)` in `lib/theme.ts` scopes a member's theme to a single element), and a label at the same inset (the gutter) in every panel, in one plain style; only the numbers take the member's accent. The wordmark on this slide is one whole word in BigFour's own heavy sans.
+The home carousel has five slides: BigFour first, then one per member. BigFour's slide (`features/home/TeamPanels.tsx`) puts the four members' scenery side by side as four equal panels across the full width, with no lines between them. Each panel has that member's background, scenery and accent (`themeVars(member)` in `lib/theme.ts` scopes a member's theme to a single element), and a label at the same inset (the gutter) in every panel, in one plain style: the member's initial, in their accent, then their name. The wordmark on this slide is one whole word in BigFour's own heavy sans.
 
+- Members are never numbered anywhere on the site (no 01–04): the four are equals, so labels use their initials.
 - Everything else on the slide (tagline, description, arrows, "Explore our projects", the index) uses BigFour's own neutral black theme, as do the header and everything below the hero.
 - The panels are built from `members`, so they follow the member list.
 
@@ -116,9 +120,15 @@ Every slide shares one text layout, built on a single edge: the gutter (`--edge`
 
 - Top left: the status line on member slides, the panel labels on BigFour's slide.
 - Bottom left, one left-aligned stack: the wordmark, the tagline, the description and the arrow buttons. `lib/useInkAlign.ts` pulls the wordmark and the tagline left by their first letter's side bearing, so their ink starts exactly on the edge, like the smaller text below them.
-- Bottom right: the slide index, its top level with the tagline, and "Explore our projects", an outlined button the same height and style as the arrows, on their row. Both end on the right edge, in line with the header nav.
+- Bottom right: the slide index (each entry an initial and a name), ending a clear step above "Explore our projects", an outlined button the same height and style as the arrows, on their row. Both end on the right edge, in line with the header nav.
 
 On phones the description is hidden, "Explore" moves under the arrows, and the index floats above the stack at the right.
+
+## Projects page
+
+All projects are shown together in one grid, with no grouping by status (`pages/ProjectsPage.tsx`). The cards (`features/projects/ShowcaseCard.tsx`) follow the "Other Projects" cards on David's portfolio, in BigFour's neutral black theme: a screenshot, the title, who built it (a dot in each member's accent), the description, an optional disclaimer, the tech stack and the links.
+
+Hovering a screenshot (always on touch screens) shows "Try it live", which opens the project's `embedUrl` in a browser-style window over the page (`components/LiveDemoDialog.tsx`): a native modal dialog with reload, open-in-a-new-tab and close. Escape or a click outside closes it, and focus returns to the card.
 
 ## Giving each member their own layout
 
@@ -132,4 +142,4 @@ This exists in both `apps/web/src` and `apps/mobile/src`, since UI is platform-s
 ## Notes
 
 - **React is pinned to `19.2.3`** in both apps. Expo requires the exact React version that its React Native release bundles, and one pinned version keeps the workspace on a single copy of React. For the same reason `react-router` is on v7: v8 needs React 19.2.7 or newer. Upgrade these together when Expo moves to a newer React.
-- **Design status:** the web home page, header and footer implement the BigFour Home prototype. The Members, member profile and Projects pages reuse its components and tokens as a stand-in until their own designs arrive. The mobile app shows the shared content but has no visual design yet.
+- **Design status:** the web home page, header and footer implement the BigFour Home prototype. The Projects page has its own showcase cards (see above). The Members and member profile pages reuse its components and tokens as a stand-in until their own designs arrive. The mobile app shows the shared content but has no visual design yet.

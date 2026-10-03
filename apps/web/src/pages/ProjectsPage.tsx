@@ -1,35 +1,52 @@
-import {
-  getProjectsByStatus,
-  projectStatusLabels,
-  projectStatusOrder,
-  team,
-} from '@bigfour/shared';
-import { ProjectGrid } from '../components/ProjectCard';
-import { Section, SectionHeader } from '../components/Section';
-import { formatIndex } from '../lib/format';
+import { useState } from 'react';
+import { projects, team, type Project } from '@bigfour/shared';
+import { LiveDemoDialog } from '../components/LiveDemoDialog';
+import { Section, SectionHeader, SectionLede } from '../components/Section';
+import { ShowcaseCard } from '../features/projects/ShowcaseCard';
 import styles from './ProjectsPage.module.css';
 
 export function ProjectsPage() {
+  // The project stays set after the window closes, so its content doesn't vanish mid-close.
+  const [demo, setDemo] = useState<Project | null>(null);
+  const [open, setOpen] = useState(false);
+
   return (
     <Section labelledBy="projects-title">
       <title>{`Projects · ${team.name}`}</title>
-      <SectionHeader as="h1" eyebrow="Our work" title="Projects" titleId="projects-title" />
-      {projectStatusOrder.map((status) => {
-        const projects = getProjectsByStatus(status);
-        if (projects.length === 0) return null;
-
-        return (
-          <section key={status} aria-labelledby={`projects-${status}`} className={styles.group}>
-            <h2 id={`projects-${status}`} className={styles.groupTitle} data-status={status}>
-              <span className={styles.dot} aria-hidden="true" />
-              {projectStatusLabels[status]}
-              <span className={styles.count}>{formatIndex(projects.length)}</span>
-            </h2>
-            {/* Grouped by status already, so the cards skip their status badge. */}
-            <ProjectGrid projects={projects} showStatus={false} />
-          </section>
-        );
-      })}
+      <SectionHeader
+        as="h1"
+        eyebrow="Our work"
+        title="Projects"
+        titleId="projects-title"
+        aside={
+          <SectionLede>
+            Everything we've built together, finished or still in progress. Most of them run right
+            here: open a screenshot to try one live.
+          </SectionLede>
+        }
+      />
+      <ul className={styles.grid}>
+        {projects.map((project) => (
+          <li key={project.slug} className={styles.item}>
+            <ShowcaseCard
+              project={project}
+              onTryLive={(next) => {
+                setDemo(next);
+                setOpen(true);
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+      {demo?.embedUrl && (
+        <LiveDemoDialog
+          open={open}
+          onClose={() => setOpen(false)}
+          title={demo.title}
+          embedUrl={demo.embedUrl}
+          liveUrl={demo.liveUrl}
+        />
+      )}
     </Section>
   );
 }

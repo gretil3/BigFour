@@ -1,0 +1,50 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f171e"/>
+      <stop offset="100%" stop-color="#16261e"/>
+    </linearGradient>
+    <linearGradient id="glow6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d9f99d" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#d9f99d" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg6)"/>
+  <circle cx="900" cy="180" r="320" fill="url(#glow6)"/>
+  <g opacity="0.9">
+    <rect x="120" y="120" width="1040" height="480" rx="16" fill="#18222a" stroke="#134e3a" stroke-width="2"/>
+
+    <rect x="180" y="170" width="220" height="380" rx="28" fill="#121b16" stroke="#2a3a44" stroke-width="3"/>
+    <rect x="204" y="206" width="172" height="250" rx="8" fill="#0f171e"/>
+    <rect x="248" y="270" width="84" height="140" rx="14" fill="#7fa98a" opacity="0.35"/>
+    <rect x="266" y="252" width="48" height="26" rx="6" fill="#7fa98a" opacity="0.35"/>
+    <text x="290" y="490" fill="#94a3b8" font-family="monospace" font-size="15" text-anchor="middle">Foto dari HP</text>
+
+    <path d="M430 360H520" stroke="#6fcf8f" stroke-width="4" stroke-linecap="round"/>
+    <path d="M506 344L524 360L506 376" fill="none" stroke="#6fcf8f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g font-family="monospace" font-size="15" text-anchor="middle">
+      <rect x="560" y="200" width="170" height="170" rx="10" fill="#e8efe4"/>
+      <rect x="617" y="228" width="56" height="100" rx="10" fill="#6fcf8f"/>
+      <rect x="629" y="214" width="32" height="18" rx="4" fill="#6fcf8f"/>
+      <text x="645" y="400" fill="#94a3b8">Shopee</text>
+
+      <rect x="760" y="200" width="170" height="170" rx="10" fill="#1f3a2b"/>
+      <rect x="817" y="228" width="56" height="100" rx="10" fill="#d9f99d"/>
+      <rect x="829" y="214" width="32" height="18" rx="4" fill="#d9f99d"/>
+      <text x="845" y="400" fill="#94a3b8">Tokopedia</text>
+
+      <rect x="960" y="186" width="150" height="198" rx="10" fill="#e0a96d" opacity="0.85"/>
+      <rect x="1007" y="228" width="56" height="100" rx="10" fill="#18222a"/>
+      <rect x="1019" y="214" width="32" height="18" rx="4" fill="#18222a"/>
+      <text x="1035" y="410" fill="#94a3b8">TikTok Shop</text>
+    </g>
+
+    <g transform="rotate(-6 835 490)">
+      <rect x="690" y="458" width="290" height="60" rx="30" fill="none" stroke="#6fcf8f" stroke-width="3"/>
+      <path d="M718 488L730 500L752 476" fill="none" stroke="#6fcf8f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="850" y="496" fill="#6fcf8f" font-family="monospace" font-size="18" font-weight="600" text-anchor="middle">Dicek manusia</text>
+    </g>
+  </g>
+  <text x="640" y="640" fill="#94a3b8" font-family="monospace" font-size="20" text-anchor="middle">FotoIn — Foto produk siap jualan, dari HP kamu.</text>
+</svg>

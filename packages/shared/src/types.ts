@@ -92,12 +92,20 @@ export interface Project {
   /** URL-safe unique id. Also names the project's screenshot file. */
   slug: string;
   title: string;
+  /** One short line, for compact cards such as "Recent projects" on the home page. */
   tagline: string;
+  /** A few sentences, for the full project cards on the projects page. */
+  description?: string;
+  /** Callout under the description, e.g. for work in progress. */
+  disclaimer?: string;
+  techStack?: string[];
   status: ProjectStatus;
   /** Shown under "Recent projects" on the home page. */
   featured?: boolean;
   /** Slugs of the members who worked on the project. */
   memberSlugs: string[];
-  repoUrl?: string;
+  /** Page opened in the "Try it live" window; the site must allow iframe embedding. */
+  embedUrl?: string;
   liveUrl?: string;
+  repoUrl?: string;
 }

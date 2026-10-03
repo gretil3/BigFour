@@ -4,7 +4,6 @@ import { members, team, type Member } from '@bigfour/shared';
 import { ArrowRightIcon } from '../components/icons';
 import { Section, SectionHeader, SectionLede } from '../components/Section';
 import { getMemberCutout } from '../lib/assets';
-import { formatIndex } from '../lib/format';
 import styles from './MembersPage.module.css';
 
 /** The member's own colors, used only for their avatar and the row's hover glow. */
@@ -27,8 +26,8 @@ export function MembersPage() {
         titleId="members-title"
         aside={<SectionLede>{team.description}</SectionLede>}
       />
-      <ol className={styles.list}>
-        {members.map((member, index) => {
+      <ul className={styles.list}>
+        {members.map((member) => {
           const cutout = getMemberCutout(member.slug);
           return (
             <li key={member.slug}>
@@ -37,7 +36,6 @@ export function MembersPage() {
                 className={styles.row}
                 style={memberColors(member)}
               >
-                <span className={styles.number}>{formatIndex(index + 1)}</span>
                 <span className={styles.avatar} aria-hidden="true">
                   {cutout ? (
                     <img className={styles.cutout} src={cutout} alt="" decoding="async" />
@@ -56,7 +54,7 @@ export function MembersPage() {
             </li>
           );
         })}
-      </ol>
+      </ul>
     </Section>
   );
 }
