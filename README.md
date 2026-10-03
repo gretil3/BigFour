@@ -80,7 +80,7 @@ All content lives in one place, [`packages/shared/src/data`](packages/shared/src
 - `team.ts`: the group name, tagline and description. The tagline is still the design's placeholder.
 - `members.ts`: each member's role, links, `palette` and `style`, lifted from their personal portfolio. While a member is featured (their home hero slide, their profile page) these re-theme the whole site, header to footer. `slug` becomes the URL (`/members/<slug>`).
   - `palette`: the colors (page, hero, cards, text, borders, accents).
-  - `style`: the character. `typeface` (`serif`, `condensed`, `grotesk`, `system`), `shape` of corners (`sharp`, `crisp`, `soft`, `round`), `label` and nav dressing (`slashes` for `// Services`, `brackets` for `( SERVICES )`, `spaced` for wide-tracked caps, `mono` for code-style caps) and the hero `backdrop` (`forest`, `waves`, `none`). The web app maps these to fonts and CSS variables in `apps/web/src/lib/theme.ts`.
+  - `style`: the character. `typeface` (`serif`, `condensed`, `grotesk`, `system`), `shape` of corners (`sharp`, `crisp`, `soft`, `round`), `label` and nav dressing (`slashes` for `// Services`, `brackets` for `( SERVICES )`, `spaced` for wide-tracked caps, `mono` for code-style caps) and the hero `backdrop` (`forest`, `waves`, `neural`, `none`). The web app maps these to fonts and CSS variables in `apps/web/src/lib/theme.ts`.
   - Pages with no featured member (Members, Projects) use BigFour's own neutral black theme, defined in `apps/web/src/styles/global.css`.
 - `services.ts`: the "What we build" cards, each led by one member.
 - `awards.ts`: the "Awards & hackathons" list.
@@ -103,6 +103,7 @@ The home hero keeps one layout for everyone; only the theme and the scenery behi
 
 - `forest` (David): the night forest from his portfolio, ported in `components/forest/`. It has a moon, mist, three ranks of pines that drift with scroll and the pointer, and canvas fireflies that gather around the pointer.
 - `waves` (Kevin): contour lines that slowly slide sideways.
+- `neural` (Gerald): floating angular shapes and drifting particles using the lime and cyan theme colors. Shared by his team panel, featured slide and member page, with reduced-motion support. The animation is decorative and respects reduced-motion preferences.
 - `none`: the member's flat hero color.
 
 To add one, add a name to `MemberStyle['backdrop']` in `packages/shared/src/types.ts` and draw it in `Backdrop.tsx`. Only the active scene is mounted, and switching members cross-fades between scenes.

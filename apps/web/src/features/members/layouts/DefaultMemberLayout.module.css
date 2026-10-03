@@ -27,6 +27,50 @@
   opacity: 0.18;
 }
 
+.band[data-backdrop='neural'] .ghost {
+  display: none;
+}
+
+.band[data-backdrop='neural'] .intro {
+  min-height: 460px;
+  justify-content: center;
+}
+
+.summary {
+  margin: 2px 0 10px;
+  max-width: 29ch;
+  color: var(--color-muted);
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.5;
+  letter-spacing: -0.025em;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 9px 15px;
+  border-radius: var(--radius-pill);
+  color: #0a1817;
+  background: linear-gradient(110deg, #c5ff64, #8eeabb 70%, #63dfff);
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.primary:hover {
+  color: #0a1817;
+  filter: brightness(1.1);
+}
+
+@media (max-width: 639px) {
+  .band[data-backdrop='neural'] .intro {
+    min-height: 660px;
+    justify-content: flex-start;
+    padding-bottom: 330px;
+  }
+}
+
 .intro {
   position: relative;
   z-index: 2;

@@ -62,21 +62,21 @@ export const members: Member[] = [
       { platform: 'github', url: 'https://github.com/geraldadli' },
       { platform: 'linkedin', url: 'https://www.linkedin.com/in/gerald-adli' },
     ],
-    // Editorial black + lime
+    // Graphite, electric lime and an ice-cyan geometric accent
     palette: {
       tone: 'dark',
-      background: '#080808',
-      hero: '#080808',
-      surface: '#101010',
-      text: '#F5F5F0',
-      muted: '#A5A5A0',
-      border: '#30302E',
-      accent: '#BBFF36',
-      accentSoft: '#D2FB80',
-      ghost: '#BBFF36',
+      background: '#080D10',
+      hero: '#0B1518',
+      surface: '#101C20',
+      text: '#F0F5F2',
+      muted: '#9CB0AE',
+      border: '#273B3E',
+      accent: '#C5FF64',
+      accentSoft: '#63DFFF',
+      ghost: '#C5FF64',
     },
-    // Heavy uppercase Inter, ( bracketed ) labels, square corners, flat black
-    style: { typeface: 'grotesk', shape: 'sharp', label: 'brackets', backdrop: 'none' },
+    // Heavy uppercase Inter, bracketed labels, sharp corners and floating geometric shapes
+    style: { typeface: 'grotesk', shape: 'sharp', label: 'brackets', backdrop: 'neural' },
   },
   {
     slug: 'fiko',

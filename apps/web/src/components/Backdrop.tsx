@@ -1,6 +1,7 @@
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import type { MemberStyle } from '@bigfour/shared';
 import { ForestScene } from './forest/ForestScene';
+import { NeuralScene } from './neural/NeuralScene';
 import styles from './Backdrop.module.css';
 
 type BackdropName = MemberStyle['backdrop'];
@@ -41,8 +42,8 @@ function Waves() {
 
 /**
  * Scenery behind a hero or profile band, from the featured member's own portfolio:
- * David's night forest, Kevin's contour waves. Only the active scene is mounted, and
- * switching members cross-fades the outgoing scene into the next.
+ * David's night forest, Kevin's contour waves and Gerald's floating shapes. Only the active scene
+ * is mounted, and switching members cross-fades the outgoing scene into the next.
  */
 export function Backdrop({ name }: { name: BackdropName }) {
   return (
@@ -58,7 +59,9 @@ export function Backdrop({ name }: { name: BackdropName }) {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.65, ease: [0.4, 0, 0.2, 1] }}
             >
-              {name === 'forest' ? <ForestScene /> : <Waves />}
+              {name === 'forest' && <ForestScene />}
+              {name === 'waves' && <Waves />}
+              {name === 'neural' && <NeuralScene />}
             </motion.div>
           )}
         </AnimatePresence>

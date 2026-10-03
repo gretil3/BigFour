@@ -57,7 +57,7 @@ export interface MemberStyle {
    */
   label: 'slashes' | 'brackets' | 'spaced' | 'mono';
   /** Decorative scenery behind the hero. */
-  backdrop: 'forest' | 'waves' | 'none';
+  backdrop: 'forest' | 'waves' | 'neural' | 'none';
 }
 
 export interface Member {

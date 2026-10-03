@@ -12,7 +12,7 @@ export function DefaultMemberLayout({ member, services, projects }: MemberLayout
   return (
     <article>
       <title>{`${member.name} · ${team.name}`}</title>
-      <header className={styles.band}>
+      <header className={styles.band} data-backdrop={member.style.backdrop}>
         <Backdrop name={member.style.backdrop} />
         <span className={styles.ghost} aria-hidden="true">
           {firstName}
@@ -20,8 +20,18 @@ export function DefaultMemberLayout({ member, services, projects }: MemberLayout
         <div className={styles.intro}>
           <p className={styles.role}>{member.role}</p>
           <h1 className={styles.name}>{member.name}</h1>
+          {member.style.backdrop === 'neural' && (
+            <p className={styles.summary}>Machine learning, connected to real-world systems.</p>
+          )}
           {member.socials.length > 0 && (
             <ul className={styles.socials}>
+              {member.style.backdrop === 'neural' && projects.length > 0 && (
+                <li>
+                  <a href="#member-projects-title" className={styles.primary}>
+                    Explore my work <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              )}
               {member.socials.map((social) => (
                 <li key={social.url}>
                   <a

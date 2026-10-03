@@ -12,7 +12,12 @@ export function TeamPanels() {
   return (
     <div className={styles.panels} aria-hidden="true">
       {members.map((member) => (
-        <div key={member.slug} className={styles.panel} style={themeVars(member)}>
+        <div
+          key={member.slug}
+          className={styles.panel}
+          data-member={member.slug}
+          style={themeVars(member)}
+        >
           <Backdrop name={member.style.backdrop} />
           <div className={styles.caption}>
             <p className={styles.label}>
