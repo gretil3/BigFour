@@ -61,52 +61,75 @@
   color: color-mix(in srgb, var(--color-muted) 35%, transparent);
 }
 
-/* "Watch trailer" or "Try it live": over the screenshot on hover or focus, always on touch screens. */
-.tryLive {
+/* "Watch trailer" and "Try it live": over the screenshot on hover or focus, always on touch screens. */
+.overlay {
   position: absolute;
   inset: 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: center;
-  padding: 0 0 16px;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
+  gap: 8px;
+  padding: 0 12px 16px;
   opacity: 0;
   transition:
     opacity 300ms,
     background-color 300ms;
 }
 
-.tryLive:hover,
-.tryLive:focus-visible {
+.overlay:hover,
+.overlay:focus-within {
   opacity: 1;
   background: rgb(0 0 0 / 0.3);
-  outline: none;
 }
 
 @media (hover: none) {
-  .tryLive {
+  .overlay {
     opacity: 1;
   }
 }
 
-.tryLivePill {
+.pill,
+.pillSecondary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
+  border: 1px solid transparent;
   border-radius: var(--radius-pill);
-  background: var(--color-accent);
-  color: var(--color-bg);
-  font-size: 12px;
-  font-weight: 600;
+  font: 600 12px var(--font-sans);
+  cursor: pointer;
   box-shadow: 0 10px 24px -6px rgb(0 0 0 / 0.5);
+  transition:
+    background-color 150ms,
+    border-color 150ms;
 }
 
-/* A keyboard user sees the ring on the pill, where the eye already is. */
-.tryLive:focus-visible .tryLivePill {
-  outline: 2px solid var(--color-accent);
+.pill {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.pill:hover {
+  background: var(--color-accent-soft);
+}
+
+/* Beside the main button: the same shape, dark and outlined. */
+.pillSecondary {
+  border-color: color-mix(in srgb, var(--color-heading) 35%, transparent);
+  background: rgb(10 10 10 / 0.75);
+  color: var(--color-heading);
+  backdrop-filter: blur(6px);
+}
+
+.pillSecondary:hover {
+  border-color: var(--color-heading);
+  background: rgb(10 10 10 / 0.9);
+}
+
+.pill:focus-visible,
+.pillSecondary:focus-visible {
+  outline: 2px solid var(--color-heading);
   outline-offset: 3px;
 }
 

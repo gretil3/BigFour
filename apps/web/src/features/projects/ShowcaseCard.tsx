@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { getFirstName, getMemberBySlug, type Member, type Project } from '@bigfour/shared';
 import {
   ArrowUpRightIcon,
@@ -12,8 +12,8 @@ import styles from './ShowcaseCard.module.css';
 
 interface ShowcaseCardProps {
   project: Project;
-  /** Opens the project's preview window: its trailer, or its live site. */
-  onPreview: (project: Project) => void;
+  /** Opens the preview window on the project's trailer or on its live site. */
+  onPreview: (project: Project, mode: 'trailer' | 'live') => void;
 }
 
 /** A full project card: screenshot, who built it, description, tech stack and links. */
@@ -29,7 +29,9 @@ export function ShowcaseCard({ project, onPreview }: ShowcaseCardProps) {
   return (
     <article className={styles.card}>
       <div className={styles.media}>
-        {image ? (
+        {trailer ? (
+          <CardTrailer src={trailer} poster={image} />
+        ) : image ? (
           <img className={styles.image} src={image} alt={`${title} preview`} loading="lazy" />
         ) : (
           <span className={styles.noImage} aria-hidden="true">
@@ -37,26 +39,30 @@ export function ShowcaseCard({ project, onPreview }: ShowcaseCardProps) {
           </span>
         )}
         {(trailer || embedUrl) && (
-          <button
-            type="button"
-            className={styles.tryLive}
-            aria-label={trailer ? `Watch the ${title} trailer` : `Try ${title} live`}
-            onClick={() => onPreview(project)}
-          >
-            <span className={styles.tryLivePill}>
-              {trailer ? (
-                <>
-                  Watch trailer
-                  <PlayIcon size={13} />
-                </>
-              ) : (
-                <>
-                  Try it live
-                  <PointerClickIcon size={14} />
-                </>
-              )}
-            </span>
-          </button>
+          <div className={styles.overlay}>
+            {trailer && (
+              <button
+                type="button"
+                className={styles.pill}
+                aria-label={`Watch the ${title} trailer`}
+                onClick={() => onPreview(project, 'trailer')}
+              >
+                Watch trailer
+                <PlayIcon size={13} />
+              </button>
+            )}
+            {embedUrl && (
+              <button
+                type="button"
+                className={trailer ? styles.pillSecondary : styles.pill}
+                aria-label={`Try ${title} live`}
+                onClick={() => onPreview(project, 'live')}
+              >
+                Try it live
+                <PointerClickIcon size={14} />
+              </button>
+            )}
+          </div>
         )}
       </div>
 
@@ -118,5 +124,53 @@ export function ShowcaseCard({ project, onPreview }: ShowcaseCardProps) {
         )}
       </div>
     </article>
+  );
+}
+
+/**
+ * The card's screenshot, replaced by its trailer: silent, on a loop, and with no controls, so
+ * none of that can be changed. The file is only fetched once the card is near the screen, and
+ * plays only while the card is on it. Visitors who prefer reduced motion keep the screenshot.
+ * The buttons over it are what assistive technology gets.
+ */
+function CardTrailer({ src, poster }: { src: string; poster?: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [near, setNear] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setNear(true);
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      className={styles.image}
+      src={near ? src : undefined}
+      poster={poster}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="none"
+      disablePictureInPicture
+      disableRemotePlayback
+      aria-hidden="true"
+      tabIndex={-1}
+    />
   );
 }

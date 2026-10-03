@@ -23,13 +23,17 @@ export function LiveDemoDialog({
   open,
   onClose,
   title,
-  trailer,
+  trailer: trailerSrc,
   embedUrl,
   liveUrl,
 }: LiveDemoDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [reloadKey, setReloadKey] = useState(0);
   const siteUrl = liveUrl ?? embedUrl;
+  // A trailer this device cannot play gives way to the live site, when there is one.
+  const [failedTrailer, setFailedTrailer] = useState<string>();
+  const trailer =
+    trailerSrc && !(trailerSrc === failedTrailer && embedUrl) ? trailerSrc : undefined;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -102,7 +106,12 @@ export function LiveDemoDialog({
       </div>
       {/* Mounted only while open, so closing the window also stops the video. */}
       {open && trailer && (
-        <TrailerFrame key={`${trailer}-${reloadKey}`} src={trailer} title={title} />
+        <TrailerFrame
+          key={`${trailer}-${reloadKey}`}
+          src={trailer}
+          title={title}
+          onError={() => setFailedTrailer(trailer)}
+        />
       )}
       {open && !trailer && embedUrl && (
         <DemoFrame key={`${embedUrl}-${reloadKey}`} url={embedUrl} title={title} />
@@ -111,7 +120,15 @@ export function LiveDemoDialog({
   );
 }
 
-function TrailerFrame({ src, title }: { src: string; title: string }) {
+function TrailerFrame({
+  src,
+  title,
+  onError,
+}: {
+  src: string;
+  title: string;
+  onError: () => void;
+}) {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -122,16 +139,21 @@ function TrailerFrame({ src, title }: { src: string; title: string }) {
           Loading trailer…
         </div>
       )}
-      {/* Opened by a click, so the browser lets it start on its own, sound included. */}
+      {/* Plays on its own every time the window opens, silent and on a loop. No controls, so
+          none of that can be changed from the window. */}
       <video
         className={styles.video}
         src={src}
         aria-label={`${title} trailer`}
-        controls
         autoPlay
+        loop
+        muted
         playsInline
+        disablePictureInPicture
+        disableRemotePlayback
         data-loaded={loaded ? '' : undefined}
         onCanPlay={() => setLoaded(true)}
+        onError={onError}
       />
     </div>
   );

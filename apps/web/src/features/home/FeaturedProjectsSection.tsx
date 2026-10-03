@@ -1,7 +1,7 @@
 import { getFeaturedProjects } from '@bigfour/shared';
-import { ProjectGrid } from '../../components/ProjectCard';
 import { Section, SectionHeader } from '../../components/Section';
 import { TextLink } from '../../components/TextLink';
+import { ProjectShowcase } from '../projects/ProjectShowcase';
 import styles from './FeaturedProjectsSection.module.css';
 
 export function FeaturedProjectsSection() {
@@ -18,7 +18,7 @@ export function FeaturedProjectsSection() {
           </TextLink>
         }
       />
-      <ProjectGrid projects={getFeaturedProjects()} linkTo="/projects" />
+      <ProjectShowcase projects={getFeaturedProjects()} />
     </Section>
   );
 }
