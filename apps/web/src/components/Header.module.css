@@ -2,6 +2,8 @@
   position: sticky;
   top: 0;
   z-index: 50;
+  /* Crossfades on its own during a page change, while the page under it dissolves. */
+  view-transition-name: site-header;
   background: color-mix(in srgb, var(--color-bg) 35%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -94,4 +96,23 @@
 .link[aria-current='page'] {
   color: var(--color-bg);
   background: var(--color-accent);
+}
+
+/*
+ * The logo and nav are set in the featured member's type. When the home hero swaps members they
+ * dissolve out with the hero's text, the typeface changes unseen, and they dissolve back in.
+ */
+.brand,
+.links {
+  transition:
+    opacity var(--swap-in) var(--ease),
+    filter var(--swap-in) var(--ease);
+}
+
+:global(html[data-theme-swap]) .brand,
+:global(html[data-theme-swap]) .links {
+  opacity: 0;
+  filter: blur(4px);
+  transition-duration: var(--swap-out);
+  transition-timing-function: ease-in;
 }

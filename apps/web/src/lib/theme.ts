@@ -259,3 +259,18 @@ export function useMemberTheme(member: Member | undefined) {
     [],
   );
 }
+
+/**
+ * Marks the page as mid theme swap while `swapping` is true, so text outside the caller set in
+ * the theme's type, such as the header, dissolves out with it and back in after the swap.
+ */
+export function useThemeSwap(swapping: boolean) {
+  useLayoutEffect(() => {
+    if (!swapping) return;
+    const root = document.documentElement;
+    root.dataset.themeSwap = '';
+    return () => {
+      delete root.dataset.themeSwap;
+    };
+  }, [swapping]);
+}

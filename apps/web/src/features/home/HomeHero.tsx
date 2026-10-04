@@ -6,7 +6,7 @@ import { Backdrop } from '../../components/Backdrop';
 import { ArrowLeftIcon, ArrowRightIcon } from '../../components/icons';
 import { getMemberCutout } from '../../lib/assets';
 import { cx } from '../../lib/cx';
-import { useMemberTheme } from '../../lib/theme';
+import { useMemberTheme, useThemeSwap } from '../../lib/theme';
 import { useInkAlign } from '../../lib/useInkAlign';
 import { MemberCutout } from './MemberCutout';
 import { TeamPanels } from './TeamPanels';
@@ -16,7 +16,7 @@ import styles from './HomeHero.module.css';
 const SLIDE_DURATION_MS = 650;
 
 /**
- * Matches the hero's --text-out duration: how long the text takes to dissolve before the slide,
+ * Matches --swap-out: how long the text takes to dissolve before the slide,
  * and with it the site's typeface, changes underneath it. The new text then dissolves back in.
  */
 const TEXT_OUT_MS = 220;
@@ -46,6 +46,7 @@ export function HomeHero() {
   const [leaving, setLeaving] = useState(false);
   const sliding = useRef(false);
   const reducedMotion = useReducedMotion();
+  useThemeSwap(leaving);
   const wordmarkRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 

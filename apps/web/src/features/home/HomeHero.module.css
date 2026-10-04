@@ -346,28 +346,25 @@
 }
 
 /*
- * Text set in the featured member's type. On a slide change it dissolves out over --text-out
+ * Text set in the featured member's type. On a slide change it dissolves out over --swap-out
  * (HomeHero's TEXT_OUT_MS), the theme and its typeface swap unseen, and it dissolves back in,
  * so typefaces cross over as smoothly as the colors fade. `translate` leaves `transform` free.
+ * The header's logo and nav dissolve on the same beat (see Header.module.css).
  */
-.hero {
-  --text-out: 220ms;
-  --text-in: 520ms;
-}
 
 .swap {
   transition:
-    opacity var(--text-in) var(--ease),
-    translate var(--text-in) var(--ease),
-    filter var(--text-in) var(--ease);
+    opacity var(--swap-in) var(--ease),
+    translate var(--swap-in) var(--ease),
+    filter var(--swap-in) var(--ease);
 }
 
 /* "Explore" keeps its own hover transitions alongside the dissolve. */
 .explore.swap {
   transition:
-    opacity var(--text-in) var(--ease),
-    translate var(--text-in) var(--ease),
-    filter var(--text-in) var(--ease),
+    opacity var(--swap-in) var(--ease),
+    translate var(--swap-in) var(--ease),
+    filter var(--swap-in) var(--ease),
     transform 150ms,
     background-color 150ms;
 }
@@ -376,7 +373,7 @@
   opacity: 0;
   translate: 0 8px;
   filter: blur(6px);
-  transition-duration: var(--text-out);
+  transition-duration: var(--swap-out);
   transition-timing-function: ease-in;
 }
 

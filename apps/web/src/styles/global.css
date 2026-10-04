@@ -163,6 +163,12 @@
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   /* One hero slide change. The theme colors fade over the same time. */
   --hero-duration: 650ms;
+  /* A theme swap's text dissolve: out before the typeface changes, back in after it. */
+  --swap-out: 220ms;
+  --swap-in: 520ms;
+  /* A page change: the old page dissolves out, the new one dissolves in over it. */
+  --page-out: 240ms;
+  --page-in: 460ms;
 
   transition-property:
     --color-bg, --color-hero, --color-surface, --color-heading, --color-text, --color-muted,
@@ -223,6 +229,43 @@ img {
 
 [data-status='planned'] {
   --status-color: var(--color-muted);
+}
+
+/*
+ * Page changes (lib/pageTransition): the browser snapshots the old page, and it dissolves out as
+ * the new page, already in its own theme and type, dissolves in. The header crossfades on its own,
+ * in place, so it never blurs. Behind both, the new page's background, so nothing flashes.
+ */
+::view-transition {
+  background: var(--color-bg);
+}
+
+::view-transition-old(root) {
+  animation: page-out var(--page-out) var(--ease) both;
+}
+
+::view-transition-new(root) {
+  animation: page-in var(--page-in) var(--ease) calc(var(--page-out) * 0.5) both;
+}
+
+::view-transition-group(site-header) {
+  animation-duration: var(--page-in);
+  animation-timing-function: var(--ease);
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    translate: 0 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

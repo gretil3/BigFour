@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { jumpToTop, useSmoothScroll } from '../lib/smoothScroll';
 import { Footer } from './Footer';
@@ -9,8 +9,9 @@ export function Layout() {
   const { pathname } = useLocation();
   useSmoothScroll();
 
-  // BrowserRouter keeps the scroll position between pages; start each page at the top.
-  useEffect(() => {
+  // BrowserRouter keeps the scroll position between pages; start each page at the top,
+  // before the page transition takes its snapshot of the new page.
+  useLayoutEffect(() => {
     jumpToTop();
   }, [pathname]);
 
