@@ -108,6 +108,11 @@ export function getMemberBySlug(slug: string): Member | undefined {
   return members.find((member) => member.slug === slug);
 }
 
+/** The member's own portfolio website: their `portfolio` social link, when they have one. */
+export function getPortfolioUrl(member: Member): string | undefined {
+  return member.socials.find((social) => social.platform === 'portfolio')?.url;
+}
+
 export function getFirstName(member: Member): string {
   return member.name.split(' ')[0] ?? member.name;
 }

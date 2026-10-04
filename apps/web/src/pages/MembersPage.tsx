@@ -1,10 +1,9 @@
 import type { CSSProperties } from 'react';
-import { Link } from 'react-router';
-import { members, team, type Member } from '@bigfour/shared';
-import { ArrowRightIcon } from '../components/icons';
+import { getPortfolioUrl, members, team, type Member } from '@bigfour/shared';
+import { ArrowRightIcon, ArrowUpRightIcon } from '../components/icons';
+import { MemberLink } from '../components/MemberLink';
 import { Section, SectionHeader, SectionLede } from '../components/Section';
 import { getMemberCutout } from '../lib/assets';
-import { memberPath } from '../lib/routes';
 import styles from './MembersPage.module.css';
 
 /** The member's own colors, used only for their avatar and the row's hover glow. */
@@ -32,11 +31,7 @@ export function MembersPage() {
           const cutout = getMemberCutout(member.slug);
           return (
             <li key={member.slug}>
-              <Link
-                to={memberPath(member)}
-                className={styles.row}
-                style={memberColors(member)}
-              >
+              <MemberLink member={member} className={styles.row} style={memberColors(member)}>
                 <span className={styles.avatar} aria-hidden="true">
                   {cutout ? (
                     <img className={styles.cutout} src={cutout} alt="" decoding="async" />
@@ -49,9 +44,14 @@ export function MembersPage() {
                   <span className={styles.role}>{member.role}</span>
                 </span>
                 <span className={styles.arrow} aria-hidden="true">
-                  <ArrowRightIcon size={22} />
+                  {/* Up-right when the row leaves for the member's own site. */}
+                  {getPortfolioUrl(member) ? (
+                    <ArrowUpRightIcon size={22} />
+                  ) : (
+                    <ArrowRightIcon size={22} />
+                  )}
                 </span>
-              </Link>
+              </MemberLink>
             </li>
           );
         })}

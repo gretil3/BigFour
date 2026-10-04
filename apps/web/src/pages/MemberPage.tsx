@@ -1,14 +1,14 @@
 import { useParams } from 'react-router';
 import { getMemberBySlug, getProjectsByMember, getServicesLedBy } from '@bigfour/shared';
 import { MemberLayout } from '../features/members/layouts';
-import { useMemberTheme } from '../lib/theme';
+import { useThemeOverride } from '../lib/theme';
 import { NotFoundPage } from './NotFoundPage';
 
 export function MemberPage() {
   const { slug = '' } = useParams();
   const member = getMemberBySlug(slug);
-  // Every layout gets the member's palette across the whole site.
-  useMemberTheme(member);
+  // While it is open, a member's page wears their theme across the whole site.
+  useThemeOverride(member);
 
   if (!member) {
     return <NotFoundPage />;

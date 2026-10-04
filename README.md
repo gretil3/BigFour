@@ -78,7 +78,7 @@ Scan the QR code with Expo Go on your phone, or press `a` (Android emulator), `i
 All content lives in one place, [`packages/shared/src/data`](packages/shared/src/data), and both apps read from it.
 
 - `team.ts`: the group name, tagline and description. The tagline is still the design's placeholder.
-- `members.ts`: each member's role, links, `palette` and `style`, lifted from their personal portfolio. While a member is featured (their home hero slide, their profile page) these re-theme the whole site, header to footer. `slug` becomes the URL (`/members/<slug>`).
+- `members.ts`: each member's role, links, `palette` and `style`, lifted from their personal portfolio. Choosing a member's slide on the home hero makes theirs the site theme: every page, header to footer, wears it until the visitor chooses again, and the browser remembers the choice (`lib/theme.ts`). A member's own profile page always wears that member's theme. A `portfolio` social link sends every link to the member to their own site instead. `slug` becomes the URL (`/members/<slug>`).
   - `palette`: the colors (page, hero, cards, text, borders, accents).
   - `style`: the character. `typeface` (`serif`, `condensed`, `grotesk`, `system`), `shape` of corners (`sharp`, `crisp`, `soft`, `round`), `label` and nav dressing (`slashes` for `// Services`, `brackets` for `( SERVICES )`, `spaced` for wide-tracked caps, `mono` for code-style caps) and the hero `backdrop` (`forest`, `waves`, `neural`, `none`). The web app maps these to fonts and CSS variables in `apps/web/src/lib/theme.ts`.
   - Pages with no featured member (Members, Projects) use BigFour's own neutral black theme, defined in `apps/web/src/styles/global.css`.

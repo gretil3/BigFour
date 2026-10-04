@@ -177,6 +177,8 @@
   transition-timing-function: var(--ease);
 
   scroll-padding-top: var(--header-height);
+  /* Short pages keep the scrollbar's room too, so the header doesn't shift between pages. */
+  scrollbar-gutter: stable;
 }
 
 *,

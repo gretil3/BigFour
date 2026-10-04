@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { Link } from 'react-router';
 import { getFirstName, getMemberBySlug, type Member, type Project } from '@bigfour/shared';
 import {
   ArrowUpRightIcon,
@@ -8,8 +7,8 @@ import {
   PointerClickIcon,
   TerminalIcon,
 } from '../../components/icons';
+import { MemberLink } from '../../components/MemberLink';
 import { getProjectImage, getProjectTrailer } from '../../lib/assets';
-import { memberPath } from '../../lib/routes';
 import styles from './ShowcaseCard.module.css';
 
 interface ShowcaseCardProps {
@@ -77,9 +76,9 @@ export function ShowcaseCard({ project, onPreview }: ShowcaseCardProps) {
                 key={member.slug}
                 style={{ '--member-accent': member.palette.accent } as CSSProperties}
               >
-                <Link to={memberPath(member)} className={styles.teamLink}>
+                <MemberLink member={member} className={styles.teamLink}>
                   {getFirstName(member)}
-                </Link>
+                </MemberLink>
               </li>
             ))}
           </ul>

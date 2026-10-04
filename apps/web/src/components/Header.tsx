@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
-import { Link, NavLink, useLocation } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { team } from '@bigfour/shared';
-import { cx } from '../lib/cx';
 import styles from './Header.module.css';
 
 const navItems = [
@@ -12,9 +11,6 @@ const navItems = [
 
 export function Header() {
   const headerRef = useRef<HTMLElement>(null);
-  // The home hero spans the whole screen, so on the home page the header does too and its
-  // logo and nav line up with the hero's text.
-  const fullWidth = useLocation().pathname === '/';
 
   // Publish the real header height (it grows when the nav wraps on narrow screens)
   // so the home hero can slide up underneath it.
@@ -36,7 +32,7 @@ export function Header() {
 
   return (
     <header ref={headerRef} className={styles.header}>
-      <nav aria-label="Main" className={cx(styles.nav, fullWidth && styles.navFull)}>
+      <nav aria-label="Main" className={styles.nav}>
         <Link to="/" className={styles.brand}>
           <span aria-hidden="true" className={styles.mark}>
             <span />

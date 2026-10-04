@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, type CSSProperties } from 'react';
-import type { Member, MemberStyle } from '@bigfour/shared';
+import { useLayoutEffect, useRef, useSyncExternalStore, type CSSProperties } from 'react';
+import { getMemberBySlug, type Member, type MemberStyle } from '@bigfour/shared';
 
 type Vars = Record<string, string>;
 
@@ -232,32 +232,93 @@ function withoutTransition(root: HTMLElement, change: () => void) {
   root.style.removeProperty('transition');
 }
 
-/**
- * Themes the whole site, colors, type, corners and labels, as `member` while the calling
- * component is mounted; `undefined` keeps BigFour's own theme. Switching members fades the
- * colors over --hero-duration. Mounting and unmounting switch at once, so a page never fades in.
+/*
+ * The site theme. Visitors choose it on the home hero, and every page then wears it, colors,
+ * type, corners and labels, until they choose again; `undefined` is BigFour's own theme. The
+ * choice is kept in the browser, so it survives reloads. A member's own profile page shows that
+ * member's theme instead, for as long as it is open.
  */
-export function useMemberTheme(member: Member | undefined) {
-  const mounted = useRef(false);
+const STORAGE_KEY = 'bigfour:theme';
+
+function readStoredTheme(): Member | undefined {
+  try {
+    return getMemberBySlug(localStorage.getItem(STORAGE_KEY) ?? '');
+  } catch {
+    return undefined;
+  }
+}
+
+let selected = readStoredTheme();
+let override: Member | undefined;
+const listeners = new Set<() => void>();
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+function emit() {
+  for (const listener of listeners) listener();
+}
+
+/** Chooses the site theme for every page, or BigFour's own with `undefined`. */
+export function selectTheme(member: Member | undefined) {
+  if (member === selected) return;
+  selected = member;
+  try {
+    if (member) {
+      localStorage.setItem(STORAGE_KEY, member.slug);
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  } catch {
+    // Without storage the choice still holds until the page reloads.
+  }
+  emit();
+}
+
+/** The site theme the visitor chose. */
+export function useSelectedTheme(): Member | undefined {
+  return useSyncExternalStore(subscribe, () => selected);
+}
+
+/** Shows `member`'s theme in place of the chosen one while the calling page is mounted. */
+export function useThemeOverride(member: Member | undefined) {
+  useLayoutEffect(() => {
+    override = member;
+    emit();
+    return () => {
+      if (override !== member) return;
+      override = undefined;
+      emit();
+    };
+  }, [member]);
+}
+
+/**
+ * Applies the theme the current page should wear to the whole site: a member page's own, or
+ * else the chosen one. Choosing another theme fades the colors over --hero-duration. Moving to
+ * or from a member page switches at once, inside the page transition, and so does the first load,
+ * so a page never fades in from the wrong colors.
+ */
+export function useSiteTheme() {
+  const pageTheme = useSyncExternalStore(subscribe, () => override);
+  const chosen = useSyncExternalStore(subscribe, () => selected);
+  const theme = pageTheme ?? chosen;
+  const applied = useRef<{ pageTheme: Member | undefined } | null>(null);
 
   useLayoutEffect(() => {
     const root = document.documentElement;
-    if (mounted.current) {
-      setTheme(root, member);
-    } else {
-      withoutTransition(root, () => setTheme(root, member));
-      mounted.current = true;
+    const previous = applied.current;
+    applied.current = { pageTheme };
+    if (previous && previous.pageTheme === pageTheme) {
+      setTheme(root, theme);
+      return;
     }
-  }, [member]);
-
-  useLayoutEffect(
-    () => () => {
-      const root = document.documentElement;
-      withoutTransition(root, () => setTheme(root, undefined));
-      mounted.current = false;
-    },
-    [],
-  );
+    withoutTransition(root, () => setTheme(root, theme));
+  }, [pageTheme, theme]);
 }
 
 /**

@@ -10,19 +10,17 @@
   border-bottom: 1px solid var(--color-border-accent);
 }
 
+/*
+ * Full width on every page, logo and nav on the gutters, so they sit in the same place on every
+ * page, line up with the home hero's text, and stay put through a page transition.
+ */
 .nav {
-  max-width: var(--content-max);
-  margin: 0 auto;
   padding: 14px var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-}
-
-.navFull {
-  max-width: none;
 }
 
 .brand {

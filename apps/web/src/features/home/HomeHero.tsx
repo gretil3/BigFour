@@ -6,7 +6,7 @@ import { Backdrop } from '../../components/Backdrop';
 import { ArrowLeftIcon, ArrowRightIcon } from '../../components/icons';
 import { getMemberCutout } from '../../lib/assets';
 import { cx } from '../../lib/cx';
-import { useMemberTheme, useThemeSwap } from '../../lib/theme';
+import { selectTheme, useSelectedTheme, useThemeSwap } from '../../lib/theme';
 import { useInkAlign } from '../../lib/useInkAlign';
 import { MemberCutout } from './MemberCutout';
 import { TeamPanels } from './TeamPanels';
@@ -41,7 +41,9 @@ function getSlidePosition(index: number, active: number): SlidePosition {
  * The text layout is the same on every slide.
  */
 export function HomeHero() {
-  const [active, setActive] = useState(0);
+  // The slide on show is the site theme: choosing a member here themes every page as them.
+  const member = useSelectedTheme();
+  const active = member ? members.indexOf(member) + 1 : 0;
   // The text is dissolving out ahead of a slide change.
   const [leaving, setLeaving] = useState(false);
   const sliding = useRef(false);
@@ -51,8 +53,6 @@ export function HomeHero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   const onTeam = active === 0;
-  const member = onTeam ? undefined : members[active - 1];
-  useMemberTheme(member);
   // The two large lines start exactly on the edge the smaller text starts on.
   useInkAlign(wordmarkRef, active);
   useInkAlign(titleRef, active);
@@ -64,17 +64,19 @@ export function HomeHero() {
   function change(next: (index: number) => number) {
     if (sliding.current) return;
     sliding.current = true;
+    const target = next(active);
+    const show = () => selectTheme(target === 0 ? undefined : members[target - 1]);
     const textOut = reducedMotion ? 0 : TEXT_OUT_MS;
     window.setTimeout(() => {
       sliding.current = false;
     }, textOut + SLIDE_DURATION_MS);
     if (textOut === 0) {
-      setActive(next);
+      show();
       return;
     }
     setLeaving(true);
     window.setTimeout(() => {
-      setActive(next);
+      show();
       setLeaving(false);
     }, textOut);
   }
