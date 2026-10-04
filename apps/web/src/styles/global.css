@@ -179,6 +179,15 @@
   scroll-padding-top: var(--header-height);
   /* Short pages keep the scrollbar's room too, so the header doesn't shift between pages. */
   scrollbar-gutter: stable;
+
+  /* Room the phone tab bar (components/TabBar) takes at the bottom of the screen; none wider. */
+  --tabbar-space: 0px;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --tabbar-space: calc(84px + env(safe-area-inset-bottom));
+  }
 }
 
 *,
@@ -235,8 +244,9 @@ img {
 
 /*
  * Page changes (lib/pageTransition): the browser snapshots the old page, and it dissolves out as
- * the new page, already in its own theme and type, dissolves in. The header crossfades on its own,
- * in place, so it never blurs. Behind both, the new page's background, so nothing flashes.
+ * the new page, already in its own theme and type, dissolves in. The header and the phone tab bar
+ * crossfade on their own, in place, so they never blur. Behind both, the new page's background, so
+ * nothing flashes.
  */
 ::view-transition {
   background: var(--color-bg);
@@ -250,7 +260,8 @@ img {
   animation: page-in var(--page-in) var(--ease) calc(var(--page-out) * 0.5) both;
 }
 
-::view-transition-group(site-header) {
+::view-transition-group(site-header),
+::view-transition-group(site-tabbar) {
   animation-duration: var(--page-in);
   animation-timing-function: var(--ease);
 }

@@ -5,6 +5,8 @@
   flex-direction: column;
   /* clip, not hidden: hidden would make this a scroll container and break the sticky header. */
   overflow-x: clip;
+  /* The phone tab bar floats over the bottom of the screen; the footer ends clear of it. */
+  padding-bottom: var(--tabbar-space);
 }
 
 .main {

@@ -26,6 +26,8 @@ export function TeamPanels() {
             </p>
             <p className={styles.role}>{member.role}</p>
           </div>
+          {/* Phones only: the first name as a faint ghost, as on the member's own page. */}
+          <span className={styles.ghost}>{getFirstName(member)}</span>
         </div>
       ))}
     </div>

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type PointerEvent } from 'react';
 import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router';
 import { getFirstName, members, team } from '@bigfour/shared';
@@ -20,6 +20,9 @@ const SLIDE_DURATION_MS = 650;
  * and with it the site's typeface, changes underneath it. The new text then dissolves back in.
  */
 const TEXT_OUT_MS = 220;
+
+/** How far a finger must travel sideways, mostly sideways, for a swipe to change the slide. */
+const SWIPE_MIN_PX = 48;
 
 /** BigFour's own slide comes first, then one slide per member. */
 const SLIDE_COUNT = members.length + 1;
@@ -49,6 +52,7 @@ export function HomeHero() {
   const sliding = useRef(false);
   const reducedMotion = useReducedMotion();
   useThemeSwap(leaving);
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const wordmarkRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -85,6 +89,25 @@ export function HomeHero() {
     change((index) => (index + direction + SLIDE_COUNT) % SLIDE_COUNT);
   }
 
+  /*
+   * Touch and pen swipes: sideways to the next or previous slide. The hero leaves vertical
+   * panning to the browser (touch-action: pan-y), which cancels the gesture once it scrolls.
+   */
+  function onPointerDown(event: PointerEvent<HTMLElement>) {
+    swipeStart.current =
+      event.pointerType === 'mouse' ? null : { x: event.clientX, y: event.clientY };
+  }
+
+  function onPointerUp(event: PointerEvent<HTMLElement>) {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+    if (!start) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_MIN_PX || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    step(dx < 0 ? 1 : -1);
+  }
+
   const slides = [team.name, ...members.map(getFirstName)];
 
   return (
@@ -94,6 +117,11 @@ export function HomeHero() {
         aria-labelledby="hero-title"
         aria-roledescription="carousel"
         data-leaving={leaving || undefined}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => {
+          swipeStart.current = null;
+        }}
       >
         <p className={styles.srOnly} aria-live="polite">
           {member
@@ -194,6 +222,10 @@ export function HomeHero() {
               </button>
             ))}
           </nav>
+          {/* Phones only, where swiping takes the arrows' place. */}
+          <p className={cx(styles.swipeHint, styles.swap)} aria-hidden="true">
+            {onTeam ? 'Swipe to meet the team' : 'Swipe'}
+          </p>
           <Link to="/projects" className={cx(styles.explore, styles.swap)}>
             Explore our projects
             <ArrowRightIcon size={20} />

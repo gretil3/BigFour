@@ -114,3 +114,14 @@
   transition-duration: var(--swap-out);
   transition-timing-function: ease-in;
 }
+
+/*
+ * Phones: just the logo up top; the tab bar at the bottom of the screen is the nav. On the home
+ * page not even that: the hero's "BigFour." is the brand there, and its scenes fill the screen.
+ */
+@media (max-width: 639px) {
+  .links,
+  .home {
+    display: none;
+  }
+}

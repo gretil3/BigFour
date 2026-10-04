@@ -1,0 +1,67 @@
+.bar {
+  display: none;
+}
+
+/*
+ * Phones only. It floats over the page, its height plus a gap kept free below every page and
+ * the home hero's text as --tabbar-space (global.css).
+ */
+@media (max-width: 639px) {
+  .bar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 60;
+    display: flex;
+    gap: 4px;
+    padding: 5px;
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+    /* Crossfades on its own during a page change, while the page under it dissolves. */
+    view-transition-name: site-tabbar;
+  }
+}
+
+.item {
+  flex: 1;
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 17px;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.item[aria-current='page'] {
+  color: var(--color-accent);
+  background: var(--color-hover);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  transition:
+    opacity var(--swap-in) var(--ease),
+    filter var(--swap-in) var(--ease);
+}
+
+/* The labels are set in the featured member's type, so they dissolve with the header's nav. */
+:global(html[data-theme-swap]) .label {
+  opacity: 0;
+  filter: blur(4px);
+  transition-duration: var(--swap-out);
+  transition-timing-function: ease-in;
+}

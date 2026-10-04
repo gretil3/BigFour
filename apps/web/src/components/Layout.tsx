@@ -4,6 +4,7 @@ import { jumpToTop, useSmoothScroll } from '../lib/smoothScroll';
 import { useSiteTheme } from '../lib/theme';
 import { Footer } from './Footer';
 import { Header } from './Header';
+import { TabBar } from './TabBar';
 import styles from './Layout.module.css';
 
 export function Layout() {
@@ -25,6 +26,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <TabBar />
     </div>
   );
 }

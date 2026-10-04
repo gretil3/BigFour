@@ -59,9 +59,68 @@
   color: rgb(255 255 255 / 0.6);
 }
 
+.ghost {
+  display: none;
+}
+
+/*
+ * Phones: four strips a quarter of the width are too narrow to show any scene, so the panels
+ * stack as four full-width bands, from the top of the screen to above the hero's text block.
+ * Each band is a small copy of the member's own page band: their role as the eyebrow, in their
+ * label style and accent, and their first name as a faint ghost in their display face, so
+ * "BigFour." below stays the one solid headline.
+ */
 @media (max-width: 639px) {
-  .initial,
-  .role {
+  .panels {
+    top: var(--header-height);
+    /* Above the hero's text block: wordmark, tagline and slide dots, over the tab bar. */
+    bottom: calc(var(--tabbar-space) + 210px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+
+  .caption {
+    top: 16px;
+  }
+
+  .label {
     display: none;
+  }
+
+  /* As DefaultMemberLayout's role line. */
+  .role {
+    font: 500 12px var(--font-mono);
+    letter-spacing: var(--label-tracking);
+    text-transform: var(--label-transform);
+    color: var(--color-accent);
+  }
+
+  .role::before {
+    content: var(--label-before);
+  }
+
+  .role::after {
+    content: var(--label-after);
+  }
+
+  /* As DefaultMemberLayout's ghost, scaled down to the band. */
+  .ghost {
+    display: block;
+    position: absolute;
+    z-index: 5;
+    right: -0.03em;
+    bottom: -0.14em;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: calc(clamp(56px, 19vw, 96px) * var(--display-scale));
+    font-weight: var(--display-weight);
+    font-stretch: var(--display-stretch);
+    line-height: 1;
+    letter-spacing: var(--display-tracking);
+    text-transform: var(--display-transform);
+    color: var(--color-ghost);
+    opacity: 0.18;
   }
 }

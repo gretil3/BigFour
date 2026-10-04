@@ -22,6 +22,8 @@
      scroll container would scroll it whenever a control is focused into view. */
   overflow: clip;
   background-color: var(--color-hero);
+  /* Sideways swipes change the slide (HomeHero); vertical ones still scroll the page. */
+  touch-action: pan-y;
 }
 
 /* BigFour's slide: the four panels, above the member scenery and below the text. */
@@ -345,6 +347,10 @@
   text-align: center;
 }
 
+.swipeHint {
+  display: none;
+}
+
 /*
  * Text set in the featured member's type. On a slide change it dissolves out over --swap-out
  * (HomeHero's TEXT_OUT_MS), the theme and its typeface swap unseen, and it dissolves back in,
@@ -386,52 +392,75 @@
   }
 }
 
+/*
+ * Phones: swiping takes the place of the arrows and the tab bar of "Explore", so the text block
+ * ends in a row of slide dots and a swipe hint, clear of the tab bar.
+ */
 @media (max-width: 639px) {
   .copy {
-    grid-template-columns: minmax(0, 1fr);
+    bottom: calc(var(--tabbar-space) + 16px);
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      'wordmark'
-      'title'
-      'controls'
-      'explore';
+      'wordmark wordmark'
+      'title title'
+      'index hint';
   }
 
-  .description {
+  .description,
+  .controls,
+  .explore {
     display: none;
   }
 
+  .wordmark {
+    margin-bottom: 16px;
+  }
+
   .title {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
 
-  .control,
-  .explore {
-    height: 48px;
-  }
-
-  .control {
-    width: 48px;
-  }
-
-  .explore {
-    justify-self: start;
-    margin-top: 12px;
-    padding: 0 20px;
-  }
-
-  /* On phones the index keeps just the initials and floats above the text block, at its right. */
+  /* The index becomes a row of dots, the current slide's drawn long. */
   .index {
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 24px);
+    flex-direction: row;
+    align-items: center;
+    justify-self: start;
+    align-self: center;
+    margin: 0 0 0 -6px;
   }
 
+  .indexInitial,
   .indexName {
     display: none;
   }
 
   .indexItem {
-    min-height: 36px;
+    min-width: 28px;
+    min-height: 44px;
+    padding: 0 6px;
+    justify-content: center;
+  }
+
+  .indexLine,
+  .indexItem:hover .indexLine {
+    width: 10px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .indexItem[aria-current='true'] .indexLine {
+    width: 24px;
+  }
+
+  .swipeHint {
+    display: block;
+    grid-area: hint;
+    align-self: center;
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--color-heading);
+    opacity: 0.6;
   }
 
   .slide[data-position='center'] {
