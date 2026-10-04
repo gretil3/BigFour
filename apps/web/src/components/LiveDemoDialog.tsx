@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { holdScroll } from '../lib/smoothScroll';
 import { CloseIcon, ExternalLinkIcon, LoaderIcon, ReloadIcon } from './icons';
 import styles from './LiveDemoDialog.module.css';
 
@@ -44,17 +45,15 @@ export function LiveDemoDialog({
     }
     if (!dialog.open) dialog.showModal();
     // Keep the page behind still while the window is open.
-    const root = document.documentElement;
-    root.style.overflow = 'hidden';
-    return () => {
-      root.style.overflow = '';
-    };
+    return holdScroll();
   }, [open]);
 
   return (
     <dialog
       ref={dialogRef}
       className={styles.dialog}
+      // The page's smooth scroller leaves wheel and touch inside the window to the browser.
+      data-lenis-prevent
       aria-label={trailer ? `${title} trailer` : `${title} live demo`}
       onClose={onClose}
       onClick={(event) => {

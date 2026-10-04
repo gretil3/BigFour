@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
+import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router';
 import { getFirstName, members, team } from '@bigfour/shared';
 import { Backdrop } from '../../components/Backdrop';
@@ -14,6 +14,12 @@ import styles from './HomeHero.module.css';
 
 /** Matches --hero-duration, so a new slide change can't start mid-transition. */
 const SLIDE_DURATION_MS = 650;
+
+/**
+ * Matches the hero's --text-out duration: how long the text takes to dissolve before the slide,
+ * and with it the site's typeface, changes underneath it. The new text then dissolves back in.
+ */
+const TEXT_OUT_MS = 220;
 
 /** BigFour's own slide comes first, then one slide per member. */
 const SLIDE_COUNT = members.length + 1;
@@ -36,7 +42,10 @@ function getSlidePosition(index: number, active: number): SlidePosition {
  */
 export function HomeHero() {
   const [active, setActive] = useState(0);
+  // The text is dissolving out ahead of a slide change.
+  const [leaving, setLeaving] = useState(false);
   const sliding = useRef(false);
+  const reducedMotion = useReducedMotion();
   const wordmarkRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -47,14 +56,26 @@ export function HomeHero() {
   useInkAlign(wordmarkRef, active);
   useInkAlign(titleRef, active);
 
-  /** Moves to another slide, unless one is still sliding in. */
+  /**
+   * Moves to another slide, unless one is still sliding in. The text dissolves out first, so
+   * each member's typeface swaps in unseen and only ever fades, never jumps.
+   */
   function change(next: (index: number) => number) {
     if (sliding.current) return;
     sliding.current = true;
+    const textOut = reducedMotion ? 0 : TEXT_OUT_MS;
     window.setTimeout(() => {
       sliding.current = false;
-    }, SLIDE_DURATION_MS);
-    setActive(next);
+    }, textOut + SLIDE_DURATION_MS);
+    if (textOut === 0) {
+      setActive(next);
+      return;
+    }
+    setLeaving(true);
+    window.setTimeout(() => {
+      setActive(next);
+      setLeaving(false);
+    }, textOut);
   }
 
   function step(direction: 1 | -1) {
@@ -65,7 +86,12 @@ export function HomeHero() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className={styles.hero} aria-labelledby="hero-title" aria-roledescription="carousel">
+      <section
+        className={styles.hero}
+        aria-labelledby="hero-title"
+        aria-roledescription="carousel"
+        data-leaving={leaving || undefined}
+      >
         <p className={styles.srOnly} aria-live="polite">
           {member
             ? `Slide ${active + 1} of ${SLIDE_COUNT}: ${member.name}, ${member.role}`
@@ -92,7 +118,7 @@ export function HomeHero() {
             <Backdrop name={member.style.backdrop} />
             <div className={styles.grain} aria-hidden="true" />
 
-            <p className={styles.status} aria-hidden="true">
+            <p className={cx(styles.status, styles.swap)} aria-hidden="true">
               <span className={styles.counter}>{member.name.charAt(0)}</span>
               <span>{member.name}</span>
               <span className={styles.role}>{member.role}</span>
@@ -122,15 +148,15 @@ export function HomeHero() {
         <div className={styles.copy}>
           <p
             ref={wordmarkRef}
-            className={cx(styles.wordmark, onTeam && styles.wordmarkTeam)}
+            className={cx(styles.wordmark, styles.swap, onTeam && styles.wordmarkTeam)}
             aria-hidden="true"
           >
             {team.name}
           </p>
-          <h1 ref={titleRef} id="hero-title" className={styles.title}>
+          <h1 ref={titleRef} id="hero-title" className={cx(styles.title, styles.swap)}>
             {team.tagline}
           </h1>
-          <p className={styles.description}>{team.description}</p>
+          <p className={cx(styles.description, styles.swap)}>{team.description}</p>
           <div className={styles.controls}>
             <button
               type="button"
@@ -149,7 +175,7 @@ export function HomeHero() {
               <ArrowRightIcon size={24} />
             </button>
           </div>
-          <nav className={styles.index} aria-label="Slides">
+          <nav className={cx(styles.index, styles.swap)} aria-label="Slides">
             {slides.map((name, index) => (
               <button
                 key={name}
@@ -165,7 +191,7 @@ export function HomeHero() {
               </button>
             ))}
           </nav>
-          <Link to="/projects" className={styles.explore}>
+          <Link to="/projects" className={cx(styles.explore, styles.swap)}>
             Explore our projects
             <ArrowRightIcon size={20} />
           </Link>

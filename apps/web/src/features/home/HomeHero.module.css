@@ -345,6 +345,50 @@
   text-align: center;
 }
 
+/*
+ * Text set in the featured member's type. On a slide change it dissolves out over --text-out
+ * (HomeHero's TEXT_OUT_MS), the theme and its typeface swap unseen, and it dissolves back in,
+ * so typefaces cross over as smoothly as the colors fade. `translate` leaves `transform` free.
+ */
+.hero {
+  --text-out: 220ms;
+  --text-in: 520ms;
+}
+
+.swap {
+  transition:
+    opacity var(--text-in) var(--ease),
+    translate var(--text-in) var(--ease),
+    filter var(--text-in) var(--ease);
+}
+
+/* "Explore" keeps its own hover transitions alongside the dissolve. */
+.explore.swap {
+  transition:
+    opacity var(--text-in) var(--ease),
+    translate var(--text-in) var(--ease),
+    filter var(--text-in) var(--ease),
+    transform 150ms,
+    background-color 150ms;
+}
+
+.hero[data-leaving] .swap {
+  opacity: 0;
+  translate: 0 8px;
+  filter: blur(6px);
+  transition-duration: var(--text-out);
+  transition-timing-function: ease-in;
+}
+
+/* Text that first appears, on page load or with the first member slide, dissolves in too. */
+@starting-style {
+  .swap {
+    opacity: 0;
+    translate: 0 8px;
+    filter: blur(6px);
+  }
+}
+
 @media (max-width: 639px) {
   .copy {
     grid-template-columns: minmax(0, 1fr);

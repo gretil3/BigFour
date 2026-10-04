@@ -4,6 +4,7 @@ import { members, team, type Member } from '@bigfour/shared';
 import { ArrowRightIcon } from '../components/icons';
 import { Section, SectionHeader, SectionLede } from '../components/Section';
 import { getMemberCutout } from '../lib/assets';
+import { memberPath } from '../lib/routes';
 import styles from './MembersPage.module.css';
 
 /** The member's own colors, used only for their avatar and the row's hover glow. */
@@ -32,7 +33,7 @@ export function MembersPage() {
           return (
             <li key={member.slug}>
               <Link
-                to={`/members/${member.slug}`}
+                to={memberPath(member)}
                 className={styles.row}
                 style={memberColors(member)}
               >
