@@ -40,6 +40,15 @@ export function ArrowRightIcon(props: IconProps) {
   );
 }
 
+export function PlusIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+    </Icon>
+  );
+}
+
 /* Icons for the phone tab bar, after the Lucide set. */
 
 export function HomeIcon(props: IconProps) {

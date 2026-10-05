@@ -1,0 +1,93 @@
+/* An open slot at the end of the project grid: dashed outline, same footprint as a project card. */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 320px;
+  padding: 32px 24px;
+  border: 2px dashed color-mix(in srgb, var(--color-heading) 22%, transparent);
+  border-radius: var(--radius-card);
+  text-align: center;
+  transition:
+    translate 300ms var(--ease),
+    border-color 300ms var(--ease),
+    background-color 300ms var(--ease);
+}
+
+.card:hover,
+.card:has(:focus-visible) {
+  translate: 0 -8px;
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+}
+
+.plus {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid color-mix(in srgb, var(--color-heading) 22%, transparent);
+  border-radius: 50%;
+  color: var(--color-muted);
+  transition:
+    rotate 300ms var(--ease),
+    color 300ms var(--ease);
+}
+
+.card:hover .plus,
+.card:has(:focus-visible) .plus {
+  rotate: 90deg;
+  color: var(--color-accent);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+  color: var(--color-heading);
+}
+
+.text {
+  margin: 0;
+  max-width: 24ch;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 150ms;
+}
+
+.action:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .card:has(:focus-visible) {
+    translate: none;
+  }
+
+  .card:hover .plus,
+  .card:has(:focus-visible) .plus {
+    rotate: none;
+  }
+}

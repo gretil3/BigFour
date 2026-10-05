@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Project } from '@bigfour/shared';
 import { LiveDemoDialog } from '../../components/LiveDemoDialog';
 import { getProjectTrailer } from '../../lib/assets';
+import { CtaCard } from './CtaCard';
 import { ShowcaseCard } from './ShowcaseCard';
 import styles from './ProjectShowcase.module.css';
 
@@ -30,6 +31,9 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
             />
           </li>
         ))}
+        <li className={styles.item}>
+          <CtaCard />
+        </li>
       </ul>
       {preview && (
         <LiveDemoDialog
